@@ -1,22 +1,22 @@
-import "./index.scss"
-import TopTitle from "@/components/TopTitle"
-import DetailsForm from "src/components/DetailsForm"
+import "./index.scss";
+import TopTitle from "@/components/TopTitle";
+import DetailsForm from "src/components/DetailsForm";
 
-import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle"
-import { memo, FC, useState } from "react"
+import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle";
+import {memo, FC, useState} from "react";
 import TopTag from "src/components/TopTag";
-import { useTranslation, withTranslation } from 'react-i18next'
+import {useTranslation, withTranslation} from 'react-i18next';
 
-import { Form, message } from 'antd';
+import {Form, message} from 'antd';
 
-import { FormItemProps, SlotComponentProps } from '@/types/detailsForm'
-import { postResetPassword } from "src/apis/page/changePassword"
+import {FormItemProps, SlotComponentProps} from '@/types/detailsForm';
+import {postResetPassword} from "src/apis/page/changePassword";
 
 // 权限控制
 const ChangePasswordPage: FC = () => {
-  const { t } = useTranslation()
-  const [messageApi, contextHolder] = message.useMessage()
-  const [loading, setLoading] = useState<boolean>(false)
+  const {t} = useTranslation();
+  const [messageApi, contextHolder] = message.useMessage();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const passwordValidator = (_: unknown, value: string) => {
     if (!value) {
@@ -47,7 +47,7 @@ const ChangePasswordPage: FC = () => {
         name: 'originalPassword',
         label: t("Pages.ChangePassword.EnterExistingPassword"),  //输入现有密码
         rules: [
-          { required: true, message: t("Pages.ChangePassword.PleaseEnterPassword") },
+          {required: true, message: t("Pages.ChangePassword.PleaseEnterPassword")},
         ],
       },
       {
@@ -62,7 +62,7 @@ const ChangePasswordPage: FC = () => {
         name: 'newPassword',
         label: t("Pages.ChangePassword.EnterNewPassword"), // 输入新密码
         rules: [
-          { required: true, validator: passwordValidator },
+          {required: true, validator: passwordValidator},
         ],
       },
       {
@@ -79,8 +79,8 @@ const ChangePasswordPage: FC = () => {
         name: 'reNewPassword',
         label: t("Pages.ChangePassword.ReEnterNewPassword"), // 再次输入新密码
         rules: [
-          { required: true, message: t("Pages.ChangePassword.PleaseConfirmPassword") }, // 请确认密码
-          ({ getFieldValue }) => ({
+          {required: true, message: t("Pages.ChangePassword.PleaseConfirmPassword")}, // 请确认密码
+          ({getFieldValue}) => ({
             validator(_, value) {
               if (!value || getFieldValue('newPassword') === value) {
                 return Promise.resolve();
@@ -140,19 +140,19 @@ const ChangePasswordPage: FC = () => {
 
   ];
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   // 提交成功后的回调
   const onFinish = (values: { originalPassword: string; newPassword: string; reNewPassword: string; }) => {
-    setLoading(true)
+    setLoading(true);
     postResetPassword(values).then(res => {
-      form.resetFields()
-      setLoading(false)
-      messageApi.open({ type: 'success', content: t("Pages.ChangePassword.ModificationSuccessful") }) //修改成功！
+      form.resetFields();
+      setLoading(false);
+      messageApi.open({type: 'success', content: t("Pages.ChangePassword.ModificationSuccessful")}); //修改成功！
     }).catch(err => {
-      setLoading(false)
+      setLoading(false);
       // messageApi.open({ type: 'error', content: t("Pages.ChangePassword.ModificationFailed") }) //修改失败！
-    })
+    });
   };
 
 
@@ -161,12 +161,12 @@ const ChangePasswordPage: FC = () => {
     disabled: false,
     onFinish,
     form, // 确保传递 form 实例
-    labelCol: { span: 12 },
-    wrapperCol: { span: 24 },
-    style: { maxWidth: 482 },
+    labelCol: {span: 12},
+    wrapperCol: {span: 24},
+    style: {maxWidth: 482},
     layout: 'vertical', //layout="vertical | horizonta | linline"
     // initialValues
-  }
+  };
 
   return (
     <div>
@@ -182,12 +182,12 @@ const ChangePasswordPage: FC = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default withTranslation()(setBreadcrumbAndTitle(
   (props: { t: (key: string) => string }) => {
-    const { t } = props
+    const {t} = props;
     // 设置面包屑和标题
     return {
       breadcrumb: [
@@ -196,5 +196,5 @@ export default withTranslation()(setBreadcrumbAndTitle(
         }
       ],
       title: t("Pages.ChangePassword.ChangePassword")
-    }
-  })(memo(ChangePasswordPage)))
+    };
+  })(memo(ChangePasswordPage)));

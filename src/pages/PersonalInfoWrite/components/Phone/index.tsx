@@ -1,15 +1,15 @@
-import { Radio, message, Input, Button } from "antd";
-import React, { Component, useState } from "react";
+import {Radio, message, Input, Button} from "antd";
+import React, {Component, useState} from "react";
 // import { DatePicker, Space } from 'antd';
 import ModalForm from '@/components/ModalForm';
 import dayjs from 'dayjs';
-import { EmailOrSmsSendCode, updateAccountAuthInfo, Login, GetAccountInfo } from '@/apis';
+import {EmailOrSmsSendCode, updateAccountAuthInfo, Login, GetAccountInfo} from '@/apis';
 import Token from "@/apis/request/token";
 import './index.scss';
 import EmailPhone from '@/components/EmailPhone';
 import VerificationCode from '@/components/VerificationCode';
-import { init } from "@rematch/core";
-import { useTranslation } from "react-i18next";
+import {init} from "@rematch/core";
+import {useTranslation} from "react-i18next";
 
 
 export default (props) => {
@@ -18,9 +18,9 @@ export default (props) => {
         value = {},
         disabled,
         action
-    } = props
-    const [open, setOpen] = useState(false)
-    const [isAcceptCode, setIsAcceptCode] = useState(false)
+    } = props;
+    const [open, setOpen] = useState(false);
+    const [isAcceptCode, setIsAcceptCode] = useState(false);
 
     const {
         phone,
@@ -28,12 +28,12 @@ export default (props) => {
             alpha2Code,
             callingCodes
         } = {}
-    } = value
+    } = value;
 
-    const { t } = useTranslation()
+    const {t} = useTranslation();
 
 
-    console.log('value222===', value)
+    console.log('value222===', value);
 
 
 
@@ -55,7 +55,7 @@ export default (props) => {
                             }
                         },
                         code
-                    } = values
+                    } = values;
                     await updateAccountAuthInfo({
                         RegionDic: {
                             nativeName,
@@ -65,14 +65,14 @@ export default (props) => {
                         },
                         Mobile: phone,
                         code
-                    })
-                    message.success(t("Pages.PersonalInfoWrite.OperationSuccessful")) // "操作成功"
-                    onChange && onChange(values.phone)
-                    setOpen(false)
+                    });
+                    message.success(t("Pages.PersonalInfoWrite.OperationSuccessful")); // "操作成功"
+                    onChange && onChange(values.phone);
+                    setOpen(false);
                 }}
 
                 onCancel={() => {
-                    setOpen(false)
+                    setOpen(false);
                 }}
                 open={open}
                 getInitialValues={(_this: any) => {
@@ -83,7 +83,7 @@ export default (props) => {
 
                     return {
                         phone: value
-                    }
+                    };
                 }}
                 getFields={(_this: any) => {
                     const {
@@ -91,7 +91,7 @@ export default (props) => {
                         getFieldsValue = () => { }
                     } = _this.form || {};
 
-                    let readOnly = false
+                    const readOnly = false;
                     return [
                         {
                             label: t("Pages.PersonalInfoWrite.PhoneNumber"), //手机号码
@@ -111,7 +111,7 @@ export default (props) => {
 
 
 
-                                    setIsAcceptCode(!!v)
+                                    setIsAcceptCode(!!v);
                                 }
                             },
                             render: ({
@@ -127,9 +127,9 @@ export default (props) => {
                                     onChange={(v) => {
 
 
-                                        onChange(v)
+                                        onChange(v);
                                     }}
-                                />
+                                />;
                             },
                             rules: [
                                 {
@@ -141,7 +141,7 @@ export default (props) => {
                                             region: {
                                                 value
                                             } = {}
-                                        } = $value
+                                        } = $value;
 
                                         if (!value) {
                                             return Promise.reject(new Error(t("Pages.PersonalInfoWrite.PleaseSelectRegion")));  // "请选择地区"
@@ -173,7 +173,7 @@ export default (props) => {
                                 const {
                                     value,
                                     onChange
-                                } = props
+                                } = props;
                                 return <VerificationCode
                                     type="GenAuthCaptcha"
                                     value={value}
@@ -190,9 +190,9 @@ export default (props) => {
                                                     nativeName,
                                                 },
 
-                                            } } = getFieldsValue('phone') || {}
+                                            }} = getFieldsValue('phone') || {};
 
-                                        let parameter = {
+                                        const parameter = {
                                             RegionDic: {
                                                 nativeName,
                                                 commonName,
@@ -202,7 +202,7 @@ export default (props) => {
                                             // Email: email,
                                             Mobile: phone,
                                             // EmailOrMobile: phone,
-                                        }
+                                        };
 
 
                                         // let parameter = {
@@ -212,15 +212,15 @@ export default (props) => {
 
 
                                         // 更新token
-                                        let { data = '' } = await EmailOrSmsSendCode({
+                                        const {data = ''} = await EmailOrSmsSendCode({
                                             ...parameter,
                                             ...v,
-                                        })
-                                        Token.set(data)
+                                        });
+                                        Token.set(data);
 
-                                        return data
+                                        return data;
 
-                                    }} />
+                                    }} />;
                             },
                             rules: [
                                 {
@@ -230,7 +230,7 @@ export default (props) => {
                             ]
                         },
 
-                    ]
+                    ];
                 }}
 
             />
@@ -241,14 +241,14 @@ export default (props) => {
                 action == 'details' ? <div>
                     {callingCodes}   {phone}
                     <Button onClick={() => {
-                    setOpen(true)
+                    setOpen(true);
                 }} style={{
                         marginLeft: '10px'
                     }}>{t("Pages.PersonalInfoWrite.ModifyPhoneMumber")}</Button> 
                     {/* 修改手机号码 */}
                 </div> : <div
                     onClick={() => {
-                        setOpen(true)
+                        setOpen(true);
                     }}
                 >
                     <EmailPhone
@@ -257,7 +257,7 @@ export default (props) => {
                         type={'phone'}
                         value={value}
                         onChange={(v) => {
-                            onChange(v)
+                            onChange(v);
                         }}
                     />
 
@@ -265,5 +265,5 @@ export default (props) => {
 
             }
         </div>
-    )
-}
+    );
+};

@@ -1,13 +1,13 @@
-import { Button, message, Rate, Tag } from 'antd';
+import {Button, message, Rate, Tag} from 'antd';
 // import {getPermissionList, removePermission} from "src/assets/js/request";
 import setBreadcrumbAndTitle from 'src/components/setBreadcrumbAndTitle';
 import TableButton from 'src/components/TableButton';
-import { tablePage } from 'src/components/TablePage';
-import { addRouterApi } from 'src/router';
-import React, { Component, JSX } from 'react';
-import { mapRedux } from '@/redux';
+import {tablePage} from 'src/components/TablePage';
+import {addRouterApi} from 'src/router';
+import React, {Component, JSX} from 'react';
+import {mapRedux} from '@/redux';
 import dayjs from 'dayjs';
-import type { TableProps } from 'antd';
+import type {TableProps} from 'antd';
 // import $Test from './test';
 
 interface IndexProps {
@@ -150,7 +150,7 @@ class Index extends Component<IndexProps, IndexState> {
 
   // 定义表头字段
   getColumns = () => {
-    const { pushRoute, routePaths: { calendarDetails = '' } = {} } = this.props;
+    const {pushRoute, routePaths: {calendarDetails = ''} = {}} = this.props;
     return [
       {
         title: '时间',
@@ -158,7 +158,7 @@ class Index extends Component<IndexProps, IndexState> {
         key: 'date',
         width: 200,
         render: (value: string, row) => {
-          const { marketClose, importance } = row;
+          const {marketClose, importance} = row;
           return (
             dayjs(value).format(
               marketClose == 1 ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD'
@@ -217,7 +217,7 @@ class Index extends Component<IndexProps, IndexState> {
           text: any,
           row: { reference: string; publishStatus: number }
         ) => {
-          const { reference: id, publishStatus, ...more } = row;
+          const {reference: id, publishStatus, ...more} = row;
 
           return (
             <TableButton
@@ -295,7 +295,7 @@ class Index extends Component<IndexProps, IndexState> {
       [key: string]: any;
     } = {}
   ) => {
-    const { date, ...more } = searchParams;
+    const {date, ...more} = searchParams;
     const [startDate, endDate] = date || [undefined, undefined];
 
     console.log('searchParams==', searchParams);
@@ -327,7 +327,7 @@ class Index extends Component<IndexProps, IndexState> {
 
   componentDidMount() {}
   render() {
-    const { pushRoute, routePaths: { calendarDetails = '' } = {} } = this.props;
+    const {pushRoute, routePaths: {calendarDetails = ''} = {}} = this.props;
 
     return (
       <>

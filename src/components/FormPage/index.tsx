@@ -8,10 +8,10 @@
  */
 import './index.scss';
 
-import { Button, Spin } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
+import {Button, Spin} from 'antd';
+import {v4 as uuidv4} from 'uuid';
 import Form from '@/components/Form';
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 
 interface History {
   back(): void;
@@ -80,7 +80,7 @@ class Index<Props = {}, State = {}> extends PureComponent<
   };
   // 验证表单
   onValidaForm = async (parameter = {}) => {
-    const { validateFields } = this.form;
+    const {validateFields} = this.form;
 
     return new Promise(async (resolve, reject) => {
       await validateFields()
@@ -121,19 +121,19 @@ class Index<Props = {}, State = {}> extends PureComponent<
     return await this.mapInitData({});
   };
   // 获取字段
-  getFields = (): Object[] => {
+  getFields = (): object[] => {
     return [];
   };
   // 底部按钮
   getFooter = () => {
     const {
       match: {
-        params: { action },
+        params: {action},
       },
       history,
     } = this.props;
 
-    const { loading } = this.state;
+    const {loading} = this.state;
 
     const readOnly = action === 'view';
     return (
@@ -159,7 +159,7 @@ class Index<Props = {}, State = {}> extends PureComponent<
     );
   };
   renderForm = (props = {}) => {
-    const { loading, reloadId } = this.state;
+    const {loading, reloadId} = this.state;
 
     return (
       <div className="form-page-component">
@@ -171,14 +171,14 @@ class Index<Props = {}, State = {}> extends PureComponent<
               fields={this.getFields()}
               onReady={this.onFormReady}
               initialValues={async () => {
-                const { match: { params: { id } = {} } = {} } = this.props;
+                const {match: {params: {id} = {}} = {}} = this.props;
                 this.setState(() => {
                   return {
                     loading: true,
                   };
                 });
 
-                let values =
+                const values =
                   id === undefined && this.action == 'add'
                     ? {}
                     : await this.getInitialValues();

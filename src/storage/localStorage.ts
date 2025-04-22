@@ -4,7 +4,7 @@ import {
 class LocalStorage {
     static setItem(key: string, value: string) {
         if (CheckDataType.isArray(value) || CheckDataType.isObject(value)) {
-            value = JSON.stringify(value)
+            value = JSON.stringify(value);
         }
         localStorage.setItem(key, value);
     }

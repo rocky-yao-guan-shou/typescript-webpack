@@ -1,7 +1,7 @@
 import "./index.scss";
 import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle";
-import React, { memo, FC, useEffect } from "react";
-import { addRouterApi, Link } from 'src/router';
+import React, {memo, FC, useEffect} from "react";
+import {addRouterApi, Link} from 'src/router';
 
 // 权限控制
 const HomePage: FC = (props) => {
@@ -10,10 +10,10 @@ const HomePage: FC = (props) => {
  
     pushRoute,
     routePaths
-  } = props
+  } = props;
   useEffect(() => {
-    pushRoute(routePaths.account)
-  }, [])
+    pushRoute(routePaths.account);
+  }, []);
 
   return (
     <div className="home">

@@ -1,6 +1,6 @@
 
 import Token from "./token";
-import { getHistory } from "src/router/history";
+import {getHistory} from "src/router/history";
 
  
 
@@ -12,7 +12,7 @@ import { getHistory } from "src/router/history";
 const Codes = {
     401: '请重新登录',
     404: '请求地址有误',
-}
+};
 
 
 const redirects = {
@@ -24,20 +24,20 @@ const redirects = {
     },
     401: (result: any) => {
         // 清楚token
-        Token.set('')
-        getHistory().push('/login')
+        Token.set('');
+        getHistory().push('/login');
     },
     404: (result: any) => {
-        console.log('redirects 404')
+        console.log('redirects 404');
     },
 
     503: (result: any) => {
-        console.log('redirects 503')
+        console.log('redirects 503');
     }
-}
+};
 
 
 export {
     Codes,
     redirects
-}
+};

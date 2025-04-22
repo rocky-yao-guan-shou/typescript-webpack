@@ -1,16 +1,16 @@
-import "./index.scss"
+import "./index.scss";
 import TopTag from "src/components/TopTag";
-import TopTitle from "@/components/TopTitle"
-import DetailsForm from "src/components/DetailsForm"
-import TermsPart from "src/components/TermsPart"
-import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle"
-import { postWithdrawal, getCreditCardsWallets, getAmountAvailable } from '@/apis/page/withdrawal';
-import { memo, FC, useState, useEffect, useCallback } from "react"
-import { mapRedux } from '@/redux';
-import { useTranslation, withTranslation } from 'react-i18next'
-import { Form, message } from 'antd';
+import TopTitle from "@/components/TopTitle";
+import DetailsForm from "src/components/DetailsForm";
+import TermsPart from "src/components/TermsPart";
+import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle";
+import {postWithdrawal, getCreditCardsWallets, getAmountAvailable} from '@/apis/page/withdrawal';
+import {memo, FC, useState, useEffect, useCallback} from "react";
+import {mapRedux} from '@/redux';
+import {useTranslation, withTranslation} from 'react-i18next';
+import {Form, message} from 'antd';
 
-import { FormItemProps, SlotComponentProps } from '@/types/detailsForm'
+import {FormItemProps, SlotComponentProps} from '@/types/detailsForm';
 
 interface accountOptionsType {
   value?: string;
@@ -24,12 +24,12 @@ interface accountOptionsType {
 // 权限控制
 const WithdrawalPage: FC = (props: any) => {
   //redux数据
-  const accountInfoData = props.state.user.userInfo
+  const accountInfoData = props.state.user.userInfo;
   console.log(props, 'accountInfoData');
   
-  const [loading, setLoading] = useState<boolean>(false)
-  const [messageApi, contextHolder] = message.useMessage()
-  const { t } = useTranslation()
+  const [loading, setLoading] = useState<boolean>(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const {t} = useTranslation();
   const [form] = Form.useForm();
   //账户下选框处理
   // const accountOptions = (accountInfoData.relatedTradingAccounts && accountInfoData.relatedTradingAccounts.length > 0) ?
@@ -39,11 +39,11 @@ const WithdrawalPage: FC = (props: any) => {
   //   serverID: item.serverID,
   // })) : []
 
-  const [accountOptions, setAccountOptions] = useState<accountOptionsType []>([])
+  const [accountOptions, setAccountOptions] = useState<accountOptionsType []>([]);
   //提取至银行卡下拉框
-  const [bankOptions, setBankOptions] = useState<any>([])
+  const [bankOptions, setBankOptions] = useState<any>([]);
   //钱包下拉框
-  const [walletOptions, setWalletOptions] = useState<any>([])
+  const [walletOptions, setWalletOptions] = useState<any>([]);
   //初始数据
   const [initialValues, setInitialValues] = useState({
     serverID: '', //服务器ID
@@ -54,8 +54,8 @@ const WithdrawalPage: FC = (props: any) => {
     bankCardNumber: '', //银行卡号
     walletAddr: '', //钱包地址
     amountAvailable: ['0', '0'],  //可取金额
-  })
-  const { withdrawalType, amountAvailable } = initialValues
+  });
+  const {withdrawalType, amountAvailable} = initialValues;
 
   //页面初始化数据
   useEffect(() => {
@@ -64,17 +64,17 @@ const WithdrawalPage: FC = (props: any) => {
       const [cardsRes, amountRes] = await Promise.all([
         getCreditCardsWallets(),
         getAmountAvailable(),
-      ])
-      const creditCards = cardsRes.data.creditCards || []
+      ]);
+      const creditCards = cardsRes.data.creditCards || [];
       const bankCards = creditCards.map((item: { abbr: string; bankBranch: string; bankCardNumber: string; bankName: string }) =>
-        ({ ...item, label: item.bankName + '*' + item.bankCardNumber.toString().slice(-4), value: item.bankCardNumber }))
-      setBankOptions([...bankCards])
+        ({...item, label: item.bankName + '*' + item.bankCardNumber.toString().slice(-4), value: item.bankCardNumber}));
+      setBankOptions([...bankCards]);
       //获取钱包地址列表
-      const walletAddrs = cardsRes.data.walletAddrs || []
+      const walletAddrs = cardsRes.data.walletAddrs || [];
       const newWalletAddr = walletAddrs.map(
         (item: { currency: string; nodeType: string; paymentChainId: string; title: string; walletAddr: string }) => 
-        ({ ...item, label: item.walletAddr, value: item.walletAddr }))
-        setWalletOptions([...newWalletAddr])
+        ({...item, label: item.walletAddr, value: item.walletAddr}));
+        setWalletOptions([...newWalletAddr]);
       // 可用金额
       console.log(amountRes, 'amountResamountResamountRes');
       const accountOptions = amountRes.data.length > 0 && amountRes.data.map((item: { serverID: string; tradingAccount: string }) => ({
@@ -82,12 +82,12 @@ const WithdrawalPage: FC = (props: any) => {
         value: item.tradingAccount,
         label: item.tradingAccount,
         serverID: item.serverID
-      })).filter((item: accountOptionsType) => item.group === '1') // '0'表示模拟账户，'1'表示真实账户
-      setAccountOptions([...accountOptions])
-    }
-    fetchData()
+      })).filter((item: accountOptionsType) => item.group === '1'); // '0'表示模拟账户，'1'表示真实账户
+      setAccountOptions([...accountOptions]);
+    };
+    fetchData();
 
-  }, [])
+  }, []);
 
   //DetailsForm的控制渲染数据
   const formItemPropData: [FormItemProps, SlotComponentProps][] = ([
@@ -108,12 +108,12 @@ const WithdrawalPage: FC = (props: any) => {
           placeholder: t("Pages.Withdrawal.PleaseSelectAccountType"),
           options: accountOptions,
           onChange: useCallback((value: string, options: { label: string; value: string; serverID: string }) => {
-            const accountBalance = String(accountOptions.find((item: { tradingAccount: string }) => item.tradingAccount === value)?.amountAvailable || '0')
+            const accountBalance = String(accountOptions.find((item: { tradingAccount: string }) => item.tradingAccount === value)?.amountAvailable || '0');
             // console.log(accountOptions, 'accountBalanceaccountBalanceaccountBalanceaccountBalance');
             //最多以为小数，分隔后 0.0
-            const handleAmountAvailable = accountBalance.includes('.') ? accountBalance.split('.') : [accountBalance, '0']
-            setInitialValues((preValues) => ({ ...preValues, tradingAccount: value, serverID: options.serverID, 
-              amountAvailable: handleAmountAvailable }))
+            const handleAmountAvailable = accountBalance.includes('.') ? accountBalance.split('.') : [accountBalance, '0'];
+            setInitialValues((preValues) => ({...preValues, tradingAccount: value, serverID: options.serverID, 
+              amountAvailable: handleAmountAvailable}));
           }, [accountOptions, amountAvailable])
         },
       },
@@ -128,12 +128,12 @@ const WithdrawalPage: FC = (props: any) => {
         props: {
           placeholder: '',
           options: [
-            { value: '0', label: t("Pages.Withdrawal.BankCard") },
-            { value: '1', label: t("Pages.Withdrawal.Wallet") },
+            {value: '0', label: t("Pages.Withdrawal.BankCard")},
+            {value: '1', label: t("Pages.Withdrawal.Wallet")},
           ],
           onChange: useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
             console.log('withdrawalType onchange');
-            setInitialValues((preValues) => ({ ...preValues, withdrawalType: e.target.value }))
+            setInitialValues((preValues) => ({...preValues, withdrawalType: e.target.value}));
           }, [initialValues])
         },
       },
@@ -203,8 +203,8 @@ const WithdrawalPage: FC = (props: any) => {
         name: 'withdrawalAmount',//取款
         label: t("Pages.Withdrawal.WithdrawalAmount"),
         rules: [
-          { required: true, message: t("Pages.Withdrawal.PleaseEnterTheAmount") },
-          { pattern: /^\d+(\.\d{1,2})?$/, message: t("Pages.Withdrawal.PleaseEnterTwoDecimalPlaces") },
+          {required: true, message: t("Pages.Withdrawal.PleaseEnterTheAmount")},
+          {pattern: /^\d+(\.\d{1,2})?$/, message: t("Pages.Withdrawal.PleaseEnterTwoDecimalPlaces")},
         ],
       },
       {
@@ -213,7 +213,7 @@ const WithdrawalPage: FC = (props: any) => {
           placeholder: '0.00',
           //后置插槽
           suffix: (
-            <span style={{ color: '#A8ABB0', fontSize: '14px', fontWeight: '400' }}>USD</span>
+            <span style={{color: '#A8ABB0', fontSize: '14px', fontWeight: '400'}}>USD</span>
           ),
           //前置插槽
           // prefix: (
@@ -240,28 +240,28 @@ const WithdrawalPage: FC = (props: any) => {
         content: t("Pages.Withdrawal.Submit"),
       },
     ],
-  ])
+  ]);
 
   // 提交成功后的回调
   const onFinish = async (values: any) => {
     try {
-    setLoading(true)
-    await postWithdrawal({ ...initialValues, ...values, withdrawalType: withdrawalType === '0' ? 'BankCard' : 'Wallet'})
-      form.resetFields()
+    setLoading(true);
+    await postWithdrawal({...initialValues, ...values, withdrawalType: withdrawalType === '0' ? 'BankCard' : 'Wallet'});
+      form.resetFields();
       // 后台审核同意才会更新可用金额
-      const { data = [] } = await getAmountAvailable()
+      const {data = []} = await getAmountAvailable();
       // 更新可用金额
-      let getNewAmount = accountOptions || []
+      const getNewAmount = accountOptions || [];
       data.filter((todo: accountOptionsType) => getNewAmount.map((item) => 
-        todo.tradingAccount === item.tradingAccount ? item.amountAvailable = Number(todo.amountAvailable) : item.amountAvailable))
+        todo.tradingAccount === item.tradingAccount ? item.amountAvailable = Number(todo.amountAvailable) : item.amountAvailable));
       console.log(getNewAmount, 'newAmountnewAmountnewAmountnewAmount');
-      setAccountOptions([...getNewAmount])
-      messageApi.open({ type: 'success', content: t("Pages.Withdrawal.SubmissionSuccessful") }) //提交成功
-      setLoading(false)
+      setAccountOptions([...getNewAmount]);
+      messageApi.open({type: 'success', content: t("Pages.Withdrawal.SubmissionSuccessful")}); //提交成功
+      setLoading(false);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -270,12 +270,12 @@ const WithdrawalPage: FC = (props: any) => {
     disabled: false,
     onFinish,
     form, // 确保传递 form 实例
-    labelCol: { span: 12 },
-    wrapperCol: { span: 24 },
-    style: { maxWidth: 482 },
+    labelCol: {span: 12},
+    wrapperCol: {span: 24},
+    style: {maxWidth: 482},
     layout: 'vertical', //layout="vertical | horizonta | linline"
     initialValues
-  }
+  };
 
   return (
     <div className="acc-box">
@@ -297,12 +297,12 @@ const WithdrawalPage: FC = (props: any) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default withTranslation()(mapRedux()(setBreadcrumbAndTitle(
   (props: { t: (key: string) => string }) => {
-    const { t } = props
+    const {t} = props;
   // 设置面包屑和标题
   return {
     breadcrumb: [
@@ -311,5 +311,5 @@ export default withTranslation()(mapRedux()(setBreadcrumbAndTitle(
       }
     ],
     title: t("Pages.Withdrawal.Withdrawal")
-  }
-})(memo(WithdrawalPage))))
+  };
+})(memo(WithdrawalPage))));

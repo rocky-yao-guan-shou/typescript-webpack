@@ -1,16 +1,16 @@
 import './index.scss';
-import { memo, Component } from 'react';
-import { mapRedux } from '@/redux';
+import {memo, Component} from 'react';
+import {mapRedux} from '@/redux';
 import setBreadcrumbAndTitle from 'src/components/setBreadcrumbAndTitle';
-import { tablePage } from 'src/components/TablePage';
-import { TableProps, Tag } from 'antd';
-import { getDepositWithdrawalReport } from '@/apis/page/depositAndWithdrawalReport'
+import {tablePage} from 'src/components/TablePage';
+import {TableProps, Tag} from 'antd';
+import {getDepositWithdrawalReport} from '@/apis/page/depositAndWithdrawalReport';
 import TopTitle from 'src/components/TopTitle';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 import dayjs from 'dayjs';
 
 interface CustomerManagementProps {
-  pushRoute?: (path: string | Object) => void;
+  pushRoute?: (path: string | object) => void;
   routePaths?: {
     customerDetails: string;
   };
@@ -32,8 +32,8 @@ class DepositAndWithdrawalReport extends Component<
 > {
   language: string;
   selectOptions: { value: string; label: string; serverID: string }[];
-  renderSearch: any
-  renderTable: any
+  renderSearch: any;
+  renderTable: any;
 
   constructor(props: any) {
     super(props);
@@ -70,7 +70,7 @@ class DepositAndWithdrawalReport extends Component<
   }
   // 定义表格列
   getColumns = () => {
-    const { t } = this.props
+    const {t} = this.props;
     return [
       {
         title: t('Pages.DepositAndWithdrawalReport.Date'), // 日期
@@ -89,19 +89,19 @@ class DepositAndWithdrawalReport extends Component<
         render: (key: number) => {
           const handleCfType = (str: string | number) => {
             const arr = [
-              { key: '100', color: 'error', value: t('Pages.DepositAndWithdrawalReport.Deposit') }, //入金
-              { key: '200', color: 'processing', value: t('Pages.DepositAndWithdrawalReport.Withdrawal') },//出金
-              { key: '300', color: 'processing', value: t('Pages.DepositAndWithdrawalReport.DeductionPhysical') }, //实货扣款
-            ]
-            return arr.find(item => item.key === String(str)) || { key: '', color: '', value: '' }
-          }
-          const { color, value } = handleCfType(key)
+              {key: '100', color: 'error', value: t('Pages.DepositAndWithdrawalReport.Deposit')}, //入金
+              {key: '200', color: 'processing', value: t('Pages.DepositAndWithdrawalReport.Withdrawal')},//出金
+              {key: '300', color: 'processing', value: t('Pages.DepositAndWithdrawalReport.DeductionPhysical')}, //实货扣款
+            ];
+            return arr.find(item => item.key === String(str)) || {key: '', color: '', value: ''};
+          };
+          const {color, value} = handleCfType(key);
 
           const tagProps = {
             bordered: false,
             color,
-            style: { borderRadius: '12px' }
-          }
+            style: {borderRadius: '12px'}
+          };
           return (
             <span>
               <Tag {...tagProps}>{value}</Tag>
@@ -116,14 +116,14 @@ class DepositAndWithdrawalReport extends Component<
         render: (text) => {
           if (text === null) return '--';
           function handleTradingWallet(str: string | number) {
-            const stri = String(str)
+            const stri = String(str);
             if (stri.length < 8) return stri;
-            const start = stri.substring(0, 4)
-            const end = stri.slice(-4)
+            const start = stri.substring(0, 4);
+            const end = stri.slice(-4);
             const middle = '*'.repeat(stri.length - 8); // 中间部分替换为星号
-            return start + middle + end
+            return start + middle + end;
           }
-          return (<span>{handleTradingWallet(text)}</span>)  //处理格式
+          return (<span>{handleTradingWallet(text)}</span>);  //处理格式
         }
       },
       {
@@ -138,22 +138,22 @@ class DepositAndWithdrawalReport extends Component<
         render: (text) => {
           function handleBoStatusColor(str: string | number) {
             const arr = [
-              { key: '000', value: '#D4A767' }, //审批中
-              { key: '100', value: '#49505E' }, //待审批
-              { key: '200', value: '#49505E' },//审批通过
-              { key: '300', value: '#49505E' }, //审批拒绝 
-            ]
-            return arr.find(item => item.key === String(str))?.value || String(str) || ''
+              {key: '000', value: '#D4A767'}, //审批中
+              {key: '100', value: '#49505E'}, //待审批
+              {key: '200', value: '#49505E'},//审批通过
+              {key: '300', value: '#49505E'}, //审批拒绝 
+            ];
+            return arr.find(item => item.key === String(str))?.value || String(str) || '';
           }
           function handleBoStatus(str: string | number) {
             const arr = [
-              { key: '100', value: t('Pages.DepositAndWithdrawalReport.PendingApproval') }, //待审批
-              { key: '200', value: t('Pages.DepositAndWithdrawalReport.ApprovalPassed') },//审批通过
-              { key: '300', value: t('Pages.DepositAndWithdrawalReport.ApprovalRejected') }, //审批拒绝
-            ]
-            return arr.find(item => item.key === String(str))?.value || str || ''
+              {key: '100', value: t('Pages.DepositAndWithdrawalReport.PendingApproval')}, //待审批
+              {key: '200', value: t('Pages.DepositAndWithdrawalReport.ApprovalPassed')},//审批通过
+              {key: '300', value: t('Pages.DepositAndWithdrawalReport.ApprovalRejected')}, //审批拒绝
+            ];
+            return arr.find(item => item.key === String(str))?.value || str || '';
           }
-          return (<span style={{ color: handleBoStatusColor(text) }}>{handleBoStatus(text)}</span>)
+          return (<span style={{color: handleBoStatusColor(text)}}>{handleBoStatus(text)}</span>);
         }
       },
       {
@@ -168,15 +168,15 @@ class DepositAndWithdrawalReport extends Component<
   tableDataLoader = async (searchParams: any) => {
     const {
       state: {
-        user: { userInfo: { relatedTradingAccounts = [] } = {} } = {},
+        user: {userInfo: {relatedTradingAccounts = []} = {}} = {},
       } = {},
     } = this.props;
 
-    const { tradingAccount, createDate, orderStatus, pageNumber, pageSize } = searchParams
+    const {tradingAccount, createDate, orderStatus, pageNumber, pageSize} = searchParams;
     // 日期
     const [startTime, endTime] = createDate || ['', ''];
     // 账户类型
-    const serverID = relatedTradingAccounts.find((item: { tradingAccount: string; serverID: string }) => item.tradingAccount === tradingAccount)?.serverID || ''
+    const serverID = relatedTradingAccounts.find((item: { tradingAccount: string; serverID: string }) => item.tradingAccount === tradingAccount)?.serverID || '';
 
     const handleSearchParams = {
       startTime: startTime === '' ? '' : dayjs(startTime).format('YYYY-MM-DD'),
@@ -190,8 +190,8 @@ class DepositAndWithdrawalReport extends Component<
     };
 
     const {
-      data: { resultList: list, ...otherData },
-    } = await getDepositWithdrawalReport({ ...handleSearchParams });
+      data: {resultList: list, ...otherData},
+    } = await getDepositWithdrawalReport({...handleSearchParams});
 
     return {
       ...otherData,
@@ -204,11 +204,11 @@ class DepositAndWithdrawalReport extends Component<
     const {
       t,
       state: {
-        user: { userInfo: { relatedTradingAccounts = [] } = {} } = {},
+        user: {userInfo: {relatedTradingAccounts = []} = {}} = {},
       } = {},
-    } = this.props
+    } = this.props;
     // 默认选中第一个账户
-    const tradingAccountValue = relatedTradingAccounts.length > 0 ? (relatedTradingAccounts[0]?.tradingAccount || '') : ''
+    const tradingAccountValue = relatedTradingAccounts.length > 0 ? (relatedTradingAccounts[0]?.tradingAccount || '') : '';
 
     return [
       {
@@ -235,8 +235,8 @@ class DepositAndWithdrawalReport extends Component<
         props: {
           options: [
             //0全部 1已结 2未结
-            { label: t('Pages.DepositAndWithdrawalReport.ClosedOrders'), value: '1' }, //已结订单
-            { label: t('Pages.DepositAndWithdrawalReport.OpenOrders'), value: '2' }, //未结订单
+            {label: t('Pages.DepositAndWithdrawalReport.ClosedOrders'), value: '1'}, //已结订单
+            {label: t('Pages.DepositAndWithdrawalReport.OpenOrders'), value: '2'}, //未结订单
           ],
           block: true,
           // className: "order-filter-radio",
@@ -286,7 +286,7 @@ class DepositAndWithdrawalReport extends Component<
 export default withTranslation()(
   mapRedux()(
     setBreadcrumbAndTitle((props: { t: (key: string) => string }) => {
-      const { t } = props;
+      const {t} = props;
       // 设置面包屑和标题
       return {
         breadcrumb: [

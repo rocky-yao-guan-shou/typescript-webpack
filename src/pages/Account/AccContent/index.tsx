@@ -1,5 +1,5 @@
 import "./index.scss";
-import { FC } from "react"
+import {FC} from "react";
 interface AccContentType {
     title?: string
     accInfoItem: AccInfoItem
@@ -48,7 +48,7 @@ const AccContent: FC<AccContentType> = ({
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AccContent
+export default AccContent;

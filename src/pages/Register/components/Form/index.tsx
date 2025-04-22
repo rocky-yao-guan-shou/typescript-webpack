@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import cn from 'classnames';
-import type { FormProps } from 'antd';
+import type {FormProps} from 'antd';
 import {
   Button,
   Checkbox,
@@ -16,9 +16,9 @@ import {
 } from 'antd';
 import EmailPhone from '@/components/EmailPhone';
 import VerificationCode from '@/components/VerificationCode';
-import { addRouterApi, Link } from 'src/router';
-import { emailReg, passwordReg, getSearchParams } from '@/utils';
-import { EmailOrSmsSendCode, Register } from '@/apis';
+import {addRouterApi, Link} from 'src/router';
+import {emailReg, passwordReg, getSearchParams} from '@/utils';
+import {EmailOrSmsSendCode, Register} from '@/apis';
 import Token from 'src/apis/request/token';
 import './index.scss';
 
@@ -29,7 +29,7 @@ import {
   useTranslation,
 } from 'react-i18next';
 
-const { Option } = Select;
+const {Option} = Select;
 type EmailPhoneType = {
   email?: string;
   phone?: string;
@@ -63,9 +63,9 @@ interface LoginFormProps {
 }
 
 const LoginForm = (props: LoginFormProps) => {
-  const { formName, pushRoute, routePaths, switchMcOpen } = props;
+  const {formName, pushRoute, routePaths, switchMcOpen} = props;
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const [isAcceptCode, setIsAcceptCode] = useState(false);
   const [isUseEmail, setIsUseEmail] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -92,7 +92,7 @@ const LoginForm = (props: LoginFormProps) => {
         emailPhone: {
           email,
           phone,
-          region: { alpha2Code, callingCodes, commonName, nativeName } = {},
+          region: {alpha2Code, callingCodes, commonName, nativeName} = {},
         } = {},
         inviteCode = '',
       } = {},
@@ -102,7 +102,7 @@ const LoginForm = (props: LoginFormProps) => {
     }
     setLoading(true);
 
-    let data = await Register({
+    const data = await Register({
       Email: email,
       Mobile: phone,
       RegionDic: {
@@ -121,7 +121,7 @@ const LoginForm = (props: LoginFormProps) => {
         // setTimeout(() => {
         //   pushRoute(routePaths.logIn);
         // }, 1000);
-        switchMcOpen()
+        switchMcOpen();
 
         setLoading(false);
       })
@@ -135,7 +135,7 @@ const LoginForm = (props: LoginFormProps) => {
   useEffect(() => { }, []);
 
   const [form] = Form.useForm();
-  const { getFieldsValue, getFieldValue, validateFields, setFieldsValue } =
+  const {getFieldsValue, getFieldValue, validateFields, setFieldsValue} =
     form;
   const onEmailOrPhoneChange = (value: boolean) => {
     setFieldsValue({
@@ -152,9 +152,9 @@ const LoginForm = (props: LoginFormProps) => {
         name={formName}
         form={form}
         layout="vertical"
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-        style={{ minWidth: 300, margin: 'auto', maxWidth: 360 }}
+        labelCol={{span: 24}}
+        wrapperCol={{span: 24}}
+        style={{minWidth: 300, margin: 'auto', maxWidth: 360}}
         size="large"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -199,7 +199,7 @@ const LoginForm = (props: LoginFormProps) => {
                 {
                   required: true,
                   validator: (rule, value = {}) => {
-                    const { email, phone, region } = value;
+                    const {email, phone, region} = value;
                     if (isUseEmail) {
                       if (!email) {
                         return Promise.reject(
@@ -232,7 +232,7 @@ const LoginForm = (props: LoginFormProps) => {
               ]}>
               <EmailPhone
                 type={isUseEmail ? 'email' : 'phone'}
-                value={{ email: '', phone: '' }}
+                value={{email: '', phone: ''}}
               />
             </Form.Item>
 
@@ -247,7 +247,7 @@ const LoginForm = (props: LoginFormProps) => {
               ]}>
               <VerificationCode
                 value={getFieldValue('code')}
-                onChange={(value: string) => setFieldsValue({ code: value })}
+                onChange={(value: string) => setFieldsValue({code: value})}
                 isAcceptCode={isAcceptCode}
                 onSubmit={async (v: any) => {
                   const {
@@ -263,7 +263,7 @@ const LoginForm = (props: LoginFormProps) => {
 
                   console.log('phone==', getFieldValue('emailPhone'));
 
-                  let parameter = {
+                  const parameter = {
                     RegionDic: {
                       nativeName,
                       commonName,
@@ -275,7 +275,7 @@ const LoginForm = (props: LoginFormProps) => {
                     // EmailOrMobile: phone,
                   };
                   // 更新token
-                  let { data = '' } = await EmailOrSmsSendCode({
+                  const {data = ''} = await EmailOrSmsSendCode({
                     ...parameter,
                     ...v,
                   });
@@ -349,7 +349,7 @@ const LoginForm = (props: LoginFormProps) => {
             <Form.Item
               name="inviteCode"
               label={t('Pages.login.registerForm_inviteCode')}
-              labelCol={{ span: 24 }}>
+              labelCol={{span: 24}}>
               <Input />
             </Form.Item>
             <Form.Item
@@ -385,7 +385,7 @@ const LoginForm = (props: LoginFormProps) => {
               </Checkbox>
             </Form.Item>
 
-            <Form.Item label={null} labelCol={{ span: 0 }}>
+            <Form.Item label={null} labelCol={{span: 0}}>
               <Button
                 loading={loading}
                 type="primary"

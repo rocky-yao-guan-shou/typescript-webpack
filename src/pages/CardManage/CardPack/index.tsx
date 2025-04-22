@@ -1,8 +1,8 @@
-import "./index.scss"
-import { FC } from "react"
-import { Popconfirm, Spin } from 'antd';
-import { CurrenciesType, CardPackProps } from '@/types/cardManage'
-import { useTranslation } from 'react-i18next'
+import "./index.scss";
+import {FC} from "react";
+import {Popconfirm, Spin} from 'antd';
+import {CurrenciesType, CardPackProps} from '@/types/cardManage';
+import {useTranslation} from 'react-i18next';
 
 
 // 权限控制
@@ -15,16 +15,16 @@ const CardPack: FC<CardPackProps> = ({
   ],
   cardPackLoading = false
 }) => {
-  const { t } = useTranslation()
+  const {t} = useTranslation();
   const confirm = (item: CurrenciesType) =>
     new Promise((resolve, reject) => {
-      const res: any = item.deleteClick(item)
+      const res: any = item.deleteClick(item);
       if (res instanceof Promise) {
         res
           .then((result) => resolve(result))
-          .catch((error) => reject(error))
+          .catch((error) => reject(error));
       } else {
-        res ? resolve(null) : reject(null)
+        res ? resolve(null) : reject(null);
       }
     });
 
@@ -59,7 +59,7 @@ const CardPack: FC<CardPackProps> = ({
       </Spin>
 
     </div>
-  )
-}
+  );
+};
 
-export default CardPack
+export default CardPack;

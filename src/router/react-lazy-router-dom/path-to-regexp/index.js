@@ -485,4 +485,4 @@ export {compile, parse, tokensToFunction, tokensToRegExp};
 // module.exports.tokensToFunction = tokensToFunction;
 // module.exports.tokensToRegExp = tokensToRegExp;
 
-/* eslint-disable */
+ 

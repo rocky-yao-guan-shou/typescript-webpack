@@ -1,7 +1,7 @@
 import "./index.scss";
-import { FC } from "react";
-import { Button } from "antd";
-import { useTranslation } from 'react-i18next';
+import {FC} from "react";
+import {Button} from "antd";
+import {useTranslation} from 'react-i18next';
 interface TopTitleType {
     title?: string
     isShowBtn?: boolean
@@ -17,7 +17,7 @@ const TopTitle: FC<TopTitleType> = ({
     isShowHr = true,
     loading = false
  }) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation();
 
     return (
         <div className="main-box-top">
@@ -33,7 +33,7 @@ const TopTitle: FC<TopTitleType> = ({
             </div>
             {isShowHr && (<div className="welcome-hr" />)}
         </div>
-    )
-}
+    );
+};
 
-export default TopTitle
+export default TopTitle;

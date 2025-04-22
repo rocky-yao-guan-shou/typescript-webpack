@@ -1,15 +1,15 @@
-import { request, } from '../request'
+import {request,} from '../request';
 
 
 //获取支付方式
 export const getPaymentGateway = async (params = {}) => {
-    return await request.get('WalletService/GetPaymentGateway/v1.0', params)
-}
+    return await request.get('WalletService/GetPaymentGateway/v1.0', params);
+};
 
 // 发送入金请求
 export const postDeposit = async (params = {}) => {
-  return await request.post('/WalletService/Deposit/V1.0', params)
-}
+  return await request.post('/WalletService/Deposit/V1.0', params);
+};
 
 // export const verifyToken = async () => {
 //   return await request.get('/VerifyJWT/v1.0')

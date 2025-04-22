@@ -8,8 +8,8 @@
  */
 import './styles.scss';
 
-import { Popconfirm } from 'antd';
-import React, { useCallback, forwardRef } from 'react';
+import {Popconfirm} from 'antd';
+import React, {useCallback, forwardRef} from 'react';
 
 interface RenderItem {
   status: boolean;
@@ -25,13 +25,13 @@ interface PropsType {
 }
 
 export default (props: PropsType) => {
-  const { render } = props;
+  const {render} = props;
   return (
     <ul className="table-button">
       {render
         .filter((item) => item.status)
         .map((item, index) => {
-          let onClick = item.props?.onClick;
+          const onClick = item.props?.onClick;
 
           if (item.showPopconfirm) {
             delete item.props.onClick;

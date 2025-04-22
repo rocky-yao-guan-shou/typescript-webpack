@@ -1,19 +1,19 @@
 // CounterComponent.js
-import React, { Children, cloneElement, createElement } from 'react';
+import React, {Children, cloneElement, createElement} from 'react';
 import useHook from '../hook';
 import './index.scss';
-import { InboxOutlined, CameraOutlined, PlusOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import { message, Upload, Spin, Popconfirm } from 'antd';
+import {InboxOutlined, CameraOutlined, PlusOutlined} from '@ant-design/icons';
+import type {UploadProps} from 'antd';
+import {message, Upload, Spin, Popconfirm} from 'antd';
 import Viewer from 'react-viewer';
 import idCardBack from '@/assets/images/idCardBack.png';
 import idCardFront from '@/assets/images/idCardFront.png';
 import dd from '@/assets/images/404.png';
-import { CheckDataType } from '@/utils';
-import { useTranslation } from 'react-i18next';
+import {CheckDataType} from '@/utils';
+import {useTranslation} from 'react-i18next';
 
 
-const { Dragger } = Upload;
+const {Dragger} = Upload;
 
 interface Props {
     type?: string;
@@ -28,7 +28,7 @@ interface Props {
 
 
 export default (props: Props) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation();
 
     const {
         type = 'front',
@@ -42,7 +42,7 @@ export default (props: Props) => {
         readOnly,
     } = props;
 
-    const { status } = value[0] || {};
+    const {status} = value[0] || {};
 
     const {
         onChangeFile,
@@ -69,7 +69,7 @@ export default (props: Props) => {
         // action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
 
         // 只要这里就行了
-        customRequest: ({ file, onSuccess }) => {
+        customRequest: ({file, onSuccess}) => {
             onChangeFile(file);
             setTimeout(() => {
                 onSuccess('ok');
@@ -115,7 +115,7 @@ export default (props: Props) => {
                 status: string;
                 name: string;
             }, index: number) => {
-                const { url, type = 'image', status, name } = item;
+                const {url, type = 'image', status, name} = item;
 
 
                 return (
@@ -132,7 +132,7 @@ export default (props: Props) => {
                                                 onClick={() => {
                                                     setPreviewImage({
                                                         visible: true,
-                                                        urls: [{ src: url, alt: name }],
+                                                        urls: [{src: url, alt: name}],
                                                     });
                                                 }}
                                                 aria-label="图标: eye-o"

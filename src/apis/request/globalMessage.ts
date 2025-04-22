@@ -1,4 +1,4 @@
-import { message  } from "antd";
+import {message} from "antd";
 export const {
     info,
     success,
@@ -7,4 +7,4 @@ export const {
     loading,
     open,
     config,
-} = message 
+} = message; 

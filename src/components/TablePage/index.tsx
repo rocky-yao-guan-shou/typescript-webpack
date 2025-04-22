@@ -8,16 +8,16 @@
  */
 
 import './index.scss';
-import type { FormProps } from 'antd';
-import { SearchForm } from 'src/components/Form';
+import type {FormProps} from 'antd';
+import {SearchForm} from 'src/components/Form';
 // import FormPicker from "src/components/FormPicker";
 import Table from 'src/components/Table';
 import React from 'react'; // , { memo, PureComponent }
-import { Spin, message } from 'antd'; // , { memo, PureComponent }
+import {Spin, message} from 'antd'; // , { memo, PureComponent }
 import Store from '@/redux/Store.js'; // , { memo, PureComponent }
-import { CheckDataType } from 'src/utils/CheckDataType';
+import {CheckDataType} from 'src/utils/CheckDataType';
 import Tabs from 'src/components/Tabs';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import {DownOutlined, UpOutlined} from '@ant-design/icons';
 // class TablePage extends PureComponent {
 //   constructor(props) {
 //     super(props);
@@ -109,7 +109,7 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons';
 //   }
 // }
 
-const { dispatch, getState } = Store;
+const {dispatch, getState} = Store;
 interface TablePageState {
   searchParams: Record<string, any>;
   tableData: Record<string, any>;
@@ -157,7 +157,7 @@ const tablePage = (
 
     constructor(props: TablePageProps) {
       super(props);
-      const { selectedRows = [], selectedRowKeys = [] } = this.state || {};
+      const {selectedRows = [], selectedRowKeys = []} = this.state || {};
       this.tabsValueKey = this.tabsValueKey || 'status';
       let searchParams = {
         pageNumber: 1,
@@ -220,7 +220,7 @@ const tablePage = (
       ];
 
       for (const item of checkFunction) {
-        const { name, message } = item;
+        const {name, message} = item;
         if (!this[name]) {
           return message;
         }
@@ -261,7 +261,7 @@ const tablePage = (
         console.error(errorMessage);
         return;
       }
-      this.setState({ tableData: data });
+      this.setState({tableData: data});
       return data;
     };
 
@@ -286,7 +286,7 @@ const tablePage = (
     }
 
     onResetForm = (): void => {
-      const { resetFields = () => {} } = this.searchForm || {};
+      const {resetFields = () => {}} = this.searchForm || {};
       resetFields();
       this.setState(() => ({
         searchParams: {
@@ -297,7 +297,7 @@ const tablePage = (
     };
 
     renderTabs = (props: TabsProps = {}): React.ReactNode => {
-      const { searchParams = {} } = this.state;
+      const {searchParams = {}} = this.state;
       return (
         <Tabs
           onChange={(value) => {
@@ -324,7 +324,7 @@ const tablePage = (
     };
 
     renderSearch = (props: SearchFormProps = {}): React.ReactNode => {
-      const { shrinkLength } = props;
+      const {shrinkLength} = props;
       return (
         <div className="search-box">
           <SearchForm
@@ -400,9 +400,9 @@ const tablePage = (
     };
 
     renderTable = (props: TableProps = {}): React.ReactNode => {
-      const { tableData, loading } = this.state;
-      let { tableProps = {}, paginationProps = {} } = props;
-      const { readOnly } = this.props;
+      const {tableData, loading} = this.state;
+      let {tableProps = {}, paginationProps = {}} = props;
+      const {readOnly} = this.props;
 
       tableProps = {
         ...tableProps,
@@ -410,7 +410,7 @@ const tablePage = (
         ...(this.getTableProps ? this.getTableProps() : {}),
       };
 
-      const { onSelect = () => {} } = tableProps;
+      const {onSelect = () => {}} = tableProps;
 
       return (
         <div className="table-page">
@@ -421,12 +421,12 @@ const tablePage = (
               columns={this.getColumns ? this.getColumns() : []}
               data={tableData}
               paginationProps={paginationProps}
-              onChange={(searchParams: Object) => {
+              onChange={(searchParams: object) => {
                 this.loadTableData(searchParams);
               }}
               onSelect={(
-                selectedRows: Array<Object>,
-                selectedRowKeys: Array<String>
+                selectedRows: Array<object>,
+                selectedRowKeys: Array<string>
               ) => {
                 this.onSelect(selectedRows, selectedRowKeys as React.Key[]);
                 onSelect(selectedRows, selectedRowKeys);
@@ -440,8 +440,8 @@ const tablePage = (
     getSearchParams = (
       searchParams: Record<string, any>
     ): Record<string, any> => {
-      const { getFieldsValue = () => ({}) } = this.searchForm || {};
-      let newSearchParams: Record<string, any> = {};
+      const {getFieldsValue = () => ({})} = this.searchForm || {};
+      const newSearchParams: Record<string, any> = {};
 
       if (this.getDefaultSearchParams) {
         searchParams = {
@@ -481,11 +481,11 @@ const tablePage = (
     exportTable = async (
       searchParams: Record<string, any> = {}
     ): Promise<void> => {
-      this.setState({ exportOpen: true });
+      this.setState({exportOpen: true});
     };
 
     render(): React.ReactNode {
-      const { exportOpen } = this.state;
+      const {exportOpen} = this.state;
       return <div className="table-page-box">{super.render()}</div>;
     }
   }
@@ -495,4 +495,4 @@ const tablePage = (
 
 // export default TablePage;
 
-export { tablePage };
+export {tablePage};

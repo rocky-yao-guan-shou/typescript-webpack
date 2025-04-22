@@ -1,18 +1,18 @@
 import './index.scss';
-import React, { memo, Component, JSX } from 'react';
-import { mapRedux } from '@/redux';
+import React, {memo, Component, JSX} from 'react';
+import {mapRedux} from '@/redux';
 import setBreadcrumbAndTitle from 'src/components/setBreadcrumbAndTitle';
-import { tablePage } from 'src/components/TablePage';
-import { Button, Table, TableProps, Tag } from 'antd';
-import { getCustomerOrderDealReportList, getCustomerTradingAccountList } from '@/apis/page/LowerLevelCustomers/tradingOrder';
+import {tablePage} from 'src/components/TablePage';
+import {Button, Table, TableProps, Tag} from 'antd';
+import {getCustomerOrderDealReportList, getCustomerTradingAccountList} from '@/apis/page/LowerLevelCustomers/tradingOrder';
 import TopTitle from 'src/components/TopTitle';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 import dayjs from 'dayjs';
 import DetailsSlot from './DetailsSlot';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import {DownOutlined, UpOutlined} from '@ant-design/icons';
 
 interface CustomerManagementProps {
-  pushRoute?: (path: string | Object) => void;
+  pushRoute?: (path: string | object) => void;
   routePaths?: {
     customerDetails: string;
   };
@@ -74,12 +74,12 @@ class TradingOrderPage extends Component<
     this.state = {
       ...this.state,
       accountInfoData: [], // 账户信息数据
-    }
+    };
   }
 
   async componentDidMount() {
     try {
-      const { data = [] } = await getCustomerTradingAccountList('300')
+      const {data = []} = await getCustomerTradingAccountList('300');
       const accountInfoData = data.map((item: AccountInfoData) => (
         {
           ...item,
@@ -87,17 +87,17 @@ class TradingOrderPage extends Component<
           eLabelKey: item.ib + ' ' + item.firstName + ' ' + item.lastName,
           valueKey: item.ib
         }
-      ))
-      this.setState({ ...this.state, accountInfoData })
+      ));
+      this.setState({...this.state, accountInfoData});
     }
     catch (error) { }
   }
   // 定义表格列
   getColumns = () => {
-    const { t } = this.props
-    const language = this.props.state.common.language
-    const { getFieldsValue = () => { } } = this.searchForm || {}
-    const { orderStatus } = getFieldsValue(['orderStatus']) || '0' // 订单类型
+    const {t} = this.props;
+    const language = this.props.state.common.language;
+    const {getFieldsValue = () => { }} = this.searchForm || {};
+    const {orderStatus} = getFieldsValue(['orderStatus']) || '0'; // 订单类型
 
     return [
       {
@@ -110,13 +110,13 @@ class TradingOrderPage extends Component<
             {true ? (
               <img
                 src="static/images/icon_gold.svg"
-                style={{ marginRight: 8 }}
+                style={{marginRight: 8}}
                 alt=""
               />
             ) : (
               <img
                 src="static/images/icon_silver.svg"
-                style={{ marginRight: 8 }}
+                style={{marginRight: 8}}
                 alt=""
               />
             )}
@@ -139,7 +139,7 @@ class TradingOrderPage extends Component<
             'Buy Stop Limit',
             'Close By',
           ];
-          const tagLabel = type !== undefined && type !== null ? typeList[type] : ''
+          const tagLabel = type !== undefined && type !== null ? typeList[type] : '';
           const tagStyle = type === undefined ? {} : type % 2 === 0
             ? {
               backgroundColor: '#E7F3FF',
@@ -152,7 +152,7 @@ class TradingOrderPage extends Component<
               color: '#E4172B',
               border: '1px solid #FFF2F3',
               borderRadius: '12px',
-            }
+            };
           return (
             <span>
               <Tag style={tagStyle}>{tagLabel}</Tag>
@@ -204,7 +204,7 @@ class TradingOrderPage extends Component<
         dataIndex: '盈亏USD',
         key: '盈亏USD',
         align: 'right',
-        render: (text) => <span style={{ color: '#00C656' }}>{text}</span>,
+        render: (text) => <span style={{color: '#00C656'}}>{text}</span>,
       },
       {
         hidden: orderStatus === '1', // Deal已结订单 隐藏
@@ -220,17 +220,17 @@ class TradingOrderPage extends Component<
 
   // 表格数据源
   tableDataLoader = async (searchParams: any) => {
-    const { tradingAccount, createDate, clientTypes, orderStatus, pageNumber, pageSize } = searchParams
-    const { accountInfoData } = this.state
+    const {tradingAccount, createDate, clientTypes, orderStatus, pageNumber, pageSize} = searchParams;
+    const {accountInfoData} = this.state;
     // 日期
-    const [startTime, endTime] = createDate || ['', '']
+    const [startTime, endTime] = createDate || ['', ''];
     // 账户数据 300合作方取 ib 200交易者取 tradingAccount serverID
     const accData = clientTypes === '300'
-      ? { ib: tradingAccount }
+      ? {ib: tradingAccount}
       : {
         tradingAccount,
         serverID: accountInfoData.find((item: AccountInfoData) => item.tradingAccount === tradingAccount)?.serverID || undefined
-      }
+      };
 
     const handleSearchParams = {
       // ...searchParams,
@@ -244,8 +244,8 @@ class TradingOrderPage extends Component<
     };
 
     const {
-      data: { resultList: list = [], ...otherData },
-    } = await getCustomerOrderDealReportList({ ...handleSearchParams });
+      data: {resultList: list = [], ...otherData},
+    } = await getCustomerOrderDealReportList({...handleSearchParams});
 
     return {
       ...otherData,
@@ -255,10 +255,10 @@ class TradingOrderPage extends Component<
 
   // 表格搜索字段
   getSearchFields() {
-    const { t } = this.props
-    const language = this.props.state.common.language
-    const { accountInfoData } = this.state
-    const { setFieldsValue = () => { } } = this.searchForm || {}
+    const {t} = this.props;
+    const language = this.props.state.common.language;
+    const {accountInfoData} = this.state;
+    const {setFieldsValue = () => { }} = this.searchForm || {};
 
     return [
       {
@@ -269,8 +269,8 @@ class TradingOrderPage extends Component<
           initialValue: '300', // 默认选中第一个
           onChange: async (value: string) => {
             try {
-              setFieldsValue({ tradingAccount: undefined })
-              const { data = [] } = await getCustomerTradingAccountList(value)
+              setFieldsValue({tradingAccount: undefined});
+              const {data = []} = await getCustomerTradingAccountList(value);
               const accountInfoData = data.map((item: AccountInfoData) => (
                 value === '300'
                   ? {
@@ -285,8 +285,8 @@ class TradingOrderPage extends Component<
                     eLabelKey: item.tradingAccount + ' ' + item.firstName + ' ' + item.lastName,
                     valueKey: item.tradingAccount
                   }
-              ))
-              this.setState({ ...this.state, accountInfoData })
+              ));
+              this.setState({...this.state, accountInfoData});
             }
             catch (error) {}
           }
@@ -294,8 +294,8 @@ class TradingOrderPage extends Component<
         props: {
           allowClear: false,
           options: [
-            { label: t('Pages.LowerLevelCustomers.Partners'), value: '300' }, // 合作方
-            { label: t('Pages.LowerLevelCustomers.Trader'), value: '200' }, // 交易员
+            {label: t('Pages.LowerLevelCustomers.Partners'), value: '300'}, // 合作方
+            {label: t('Pages.LowerLevelCustomers.Trader'), value: '200'}, // 交易员
           ],
 
         },
@@ -321,8 +321,8 @@ class TradingOrderPage extends Component<
         props: {
           options: [
             //0全部 1已结 2未结
-            { label: t('Pages.LowerLevelCustomers.ClosedOrders'), value: '1' }, //已结订单
-            { label: t('Pages.LowerLevelCustomers.OpenOrders'), value: '2' }, //未结订单
+            {label: t('Pages.LowerLevelCustomers.ClosedOrders'), value: '1'}, //已结订单
+            {label: t('Pages.LowerLevelCustomers.OpenOrders'), value: '2'}, //未结订单
           ],
           block: true,
           // className: "order-filter-radio",
@@ -362,8 +362,8 @@ class TradingOrderPage extends Component<
             },
             tableProps: {
               expandable: {
-                expandedRowRender: (record: DataType) => <p style={{ margin: 0 }}><DetailsSlot record={record} /></p>, //插槽在这里
-                expandIcon: ({ expanded, onExpand, record }: { expanded: boolean; onExpand: (record: any, e: React.MouseEvent<HTMLElement>) => void; record: DataType }) =>
+                expandedRowRender: (record: DataType) => <p style={{margin: 0}}><DetailsSlot record={record} /></p>, //插槽在这里
+                expandIcon: ({expanded, onExpand, record}: { expanded: boolean; onExpand: (record: any, e: React.MouseEvent<HTMLElement>) => void; record: DataType }) =>
                 (<Button
                   type="text"
                   onClick={(e) => onExpand(record, e)}
@@ -382,7 +382,7 @@ class TradingOrderPage extends Component<
 export default withTranslation()(
   mapRedux()(
     setBreadcrumbAndTitle((props: { t: (key: string) => string }) => {
-      const { t } = props;
+      const {t} = props;
       // 设置面包屑和标题
       return {
         breadcrumb: [

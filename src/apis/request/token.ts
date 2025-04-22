@@ -20,35 +20,35 @@ class Token {
       // 超时时间 x 分钟 失效
       overtime: 60 * 24 * 30,
     };
-    this.tokenKey = tokenKey
+    this.tokenKey = tokenKey;
     this.queue = [];
     //配置不需要token的请求
     this.doNotToken = [...doNotToken, "/GetJWT/v1.0",];
   }
 
-  subscribeQueue({ resolve, reject }: { resolve: Function, reject: Function }) {
-    this.queue.push({ resolve, reject });
+  subscribeQueue({resolve, reject}: { resolve: Function, reject: Function }) {
+    this.queue.push({resolve, reject});
   }
-  publishQueue(token: String) {
+  publishQueue(token: string) {
     this.queue.forEach((item) => {
-      const { resolve } = item;
+      const {resolve} = item;
       resolve(token);
     });
     this.queue = [];
   }
   clearQueue() {
     this.queue.forEach((item) => {
-      const { reject } = item;
+      const {reject} = item;
       reject(null);
     });
     this.queue = [];
   }
-  set(value: String) {
+  set(value: string) {
 
 
    
     // if (process.browser && window && window.localStorage) {
-    let token = JSON.stringify({
+    const token = JSON.stringify({
       token: value,
       time: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
     });
@@ -66,12 +66,12 @@ class Token {
 
     const {
       overtime,
-    } = this.options
-    const { url } = config || {}
+    } = this.options;
+    const {url} = config || {};
 
 
     const value = localStorage.getItem(this.tokenKey);
-    const { token, time } = value ? JSON.parse(value) : {};
+    const {token, time} = value ? JSON.parse(value) : {};
 
 
     return new Promise((resolve, reject) => {
@@ -81,16 +81,16 @@ class Token {
         return resolve('');
       } else if (token && time && dayjs().toDate().getTime() > dayjs(time).add(overtime, 'minute').toDate().getTime()) {
         // 如果是超时了，就返回空
-        this.set('')
+        this.set('');
         // this.subscribeQueue({ resolve, reject });
         return resolve('');
       }
       else if (!token) {
-        this.subscribeQueue({ resolve, reject });
+        this.subscribeQueue({resolve, reject});
       }
       else {
-        this.publishQueue(token)
-        this.set(token)
+        this.publishQueue(token);
+        this.set(token);
         return resolve(token);
       }
     });
@@ -100,5 +100,5 @@ class Token {
   }
 }
 
-export { Token };
+export {Token};
 export default new Token();

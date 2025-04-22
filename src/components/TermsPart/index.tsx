@@ -1,6 +1,6 @@
-import "./index.scss"
-import { FC } from "react"
-import { useTranslation } from 'react-i18next'
+import "./index.scss";
+import {FC} from "react";
+import {useTranslation} from 'react-i18next';
 
 interface TermsPartProps {
   pageType?: number
@@ -12,7 +12,7 @@ const TermsPart: FC<TermsPartProps> = ({
   pageType = 0, // 0 deposit 1 withdraw
   payType = 0, // 0 USDT 1 RMB
 }) => {
-  const { t } = useTranslation()
+  const {t} = useTranslation();
 
   const list1_1 = [
     // '单笔最低为100USDT，最高为XXXUSDT；',
@@ -24,7 +24,7 @@ const TermsPart: FC<TermsPartProps> = ({
     t('Components.TermsPart.TheTransferAmountMsg'),
     t('Components.TermsPart.EachDepositMustBeResubmitted'),
     t('Components.TermsPart.OurCompanyIsNotResponsible')
-  ]
+  ];
 
   const list1_2 = [
     // '请勿频繁重复提交存款申请，以免被风控;',
@@ -35,7 +35,7 @@ const TermsPart: FC<TermsPartProps> = ({
     t('Components.TermsPart.DepositsMustBeMadeToOnesOwnAccount'),
     t('Components.TermsPart.PleaseKeepScreenshotAfterEachTransferForBackup'),
     t('Components.TermsPart.PleaseContactOurOnlineCustomerService'),
-  ]
+  ];
 
   const list1_3 = [
     // 单笔最低为XXX人民币，最高为--人民币；
@@ -46,7 +46,7 @@ const TermsPart: FC<TermsPartProps> = ({
     t('Components.TermsPart.DepositTimeIs') + 'XX',
     t('Components.TermsPart.PleaseDoNotFillInAnyRemarksOrComments'),
     t('Components.TermsPart.TransfersMadeDuringTheEveningHoursOfWeekdays'),
-  ]
+  ];
 
   const list1_4 = [
     // 请勿频繁重复提交存款申请，以免被风控；
@@ -57,7 +57,7 @@ const TermsPart: FC<TermsPartProps> = ({
     t('Components.TermsPart.DepositsMustBeMadeToOnesOwnAccount'),
     t('Components.TermsPart.PleaseKeepScreenshotAfterEachTransferForBackup'),
     t('Components.TermsPart.PleaseContactOurOnlineCustomerService'),
-  ]
+  ];
 
   const list2_1 = [
     // 最低取款金额为USD20.
@@ -68,7 +68,7 @@ const TermsPart: FC<TermsPartProps> = ({
     t('Components.TermsPart.TheWalletAddressForWithdrawalMustBeOwned'),
     t('Components.TermsPart.WeMayNeedToAskDocumentsOfYourWallet'),
     t('Components.TermsPart.PleaseMakeSureTheWalletAddressIsCorrect'),
-  ]
+  ];
 
   const list2_2 = [
     // 建议在没有持仓的情况下才提交取款申请；
@@ -77,7 +77,7 @@ const TermsPart: FC<TermsPartProps> = ({
     t('Components.TermsPart.ItIsRecommendedToSubmitWithdrawalApplication'),
     t('Components.TermsPart.IfYouHoldPositionWhenWithdrawingFunds'),
     t('Components.TermsPart.IfYouHaveAnyQuestionsPleaseContact'),
-  ]
+  ];
 
   const list2_3 = [
     // 最低取款金额为USD20.
@@ -86,7 +86,7 @@ const TermsPart: FC<TermsPartProps> = ({
     t('Components.TermsPart.TheMinimumWithdrawalAmountIsUSD20'),
     t('Components.TermsPart.TheBankCardUsedToWithdrawMoneyMustBeOwned'),
     t('Components.TermsPart.PleaseEnsureThatTheBankCardInformationIsCorrect'),
-  ]
+  ];
 
   const list2_4 = [
     // 建议在没有持仓的情况下才提交取款申请；
@@ -95,7 +95,7 @@ const TermsPart: FC<TermsPartProps> = ({
     t('Components.TermsPart.ItIsRecommendedToSubmitWithdrawalApplication'),
     t('Components.TermsPart.IfYouHoldPositionWhenWithdrawingFunds'),
     t('Components.TermsPart.IfYouHaveAnyQuestionsPleaseContact'),
-  ]
+  ];
 
   //dataList[number][payType]
   const dataList = [
@@ -125,10 +125,10 @@ const TermsPart: FC<TermsPartProps> = ({
         list2_4,
       ]
     ],
-  ]
+  ];
   
-  const noteList = dataList[pageType][payType][0]
-  const tipList = dataList[pageType][payType][1]
+  const noteList = dataList[pageType][payType][0];
+  const tipList = dataList[pageType][payType][1];
 
   return (
     <>
@@ -140,7 +140,7 @@ const TermsPart: FC<TermsPartProps> = ({
             {noteList.map((item, index) => (<li key={index}>{item}</li>))}
           </div>
         </div>
-        <div className="text-item" style={{ marginTop: "24px" }}>
+        <div className="text-item" style={{marginTop: "24px"}}>
           {/* 【温馨提示】 */}
           <div className="text-title">{`【${t('Components.TermsPart.KindTips')}】`}</div>
           <div>
@@ -149,7 +149,7 @@ const TermsPart: FC<TermsPartProps> = ({
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default TermsPart
+export default TermsPart;

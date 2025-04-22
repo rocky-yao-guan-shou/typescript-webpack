@@ -1,14 +1,14 @@
-import { Radio, message, Input, Button } from "antd";
-import React, { Component, useState } from "react";
-import { DatePicker, Space } from 'antd';
+import {Radio, message, Input, Button} from "antd";
+import React, {Component, useState} from "react";
+import {DatePicker, Space} from 'antd';
 import ModalForm from '@/components/ModalForm';
 import dayjs from 'dayjs';
-import { EmailOrSmsSendCode, updateAccountAuthInfo, Login,  } from '@/apis';
+import {EmailOrSmsSendCode, updateAccountAuthInfo, Login,} from '@/apis';
 import Token from "@/apis/request/token";
 import './index.scss';
 
 import VerificationCode from '@/components/VerificationCode';
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 export default (props) => {
     const {
@@ -17,11 +17,11 @@ export default (props) => {
         disabled,
         readOnly,
         action
-    } = props
-    const [open, setOpen] = useState(false)
-    const [isAcceptCode, setIsAcceptCode] = useState(false)
+    } = props;
+    const [open, setOpen] = useState(false);
+    const [isAcceptCode, setIsAcceptCode] = useState(false);
 
-    const { t } = useTranslation()
+    const {t} = useTranslation();
 
     return (
         <div  >
@@ -30,14 +30,14 @@ export default (props) => {
                     title: t("Pages.PersonalInfoWrite.EmailVerification") //邮箱验证
                 }}
                 onOk={async (values: any) => {
-                    await updateAccountAuthInfo(values)
-                    message.success(t("Pages.PersonalInfoWrite.OperationSuccessful")) // "操作成功"
-                    onChange && onChange(values.email)
-                    setOpen(false)
+                    await updateAccountAuthInfo(values);
+                    message.success(t("Pages.PersonalInfoWrite.OperationSuccessful")); // "操作成功"
+                    onChange && onChange(values.email);
+                    setOpen(false);
                 }}
 
                 onCancel={() => {
-                    setOpen(false)
+                    setOpen(false);
                 }}
                 open={open}
                 getInitialValues={(_this: any) => {
@@ -48,7 +48,7 @@ export default (props) => {
 
                     return {
                         email: value
-                    }
+                    };
                 }}
                 getFields={(_this: any) => {
                     const {
@@ -56,7 +56,7 @@ export default (props) => {
                         getFieldsValue = () => { }
                     } = _this.form || {};
 
-                    let readOnly = false
+                    const readOnly = false;
                     return [
                         {
                             label: t("Pages.PersonalInfoWrite.Email"), // "邮箱"
@@ -75,7 +75,7 @@ export default (props) => {
 
 
 
-                                    setIsAcceptCode(!!v)
+                                    setIsAcceptCode(!!v);
                                 }
                             },
                             rules: [
@@ -98,7 +98,7 @@ export default (props) => {
                                 const {
                                     value,
                                     onChange
-                                } = props
+                                } = props;
                                 return <VerificationCode
                                     type="GenAuthCaptcha"
                                     value={value}
@@ -110,21 +110,21 @@ export default (props) => {
 
                                         const {
                                             email,
-                                        } = getFieldsValue('email') || {}
+                                        } = getFieldsValue('email') || {};
 
-                                        let parameter = {
+                                        const parameter = {
                                             Email: email,
-                                        }
+                                        };
                                         // 更新token
-                                        let { data = '' } = await EmailOrSmsSendCode({
+                                        const {data = ''} = await EmailOrSmsSendCode({
                                             ...parameter,
                                             ...v,
-                                        })
-                                        Token.set(data)
+                                        });
+                                        Token.set(data);
 
-                                        return data
+                                        return data;
 
-                                    }} />
+                                    }} />;
                             },
                             rules: [
                                 {
@@ -134,7 +134,7 @@ export default (props) => {
                             ]
                         },
 
-                    ]
+                    ];
                 }}
 
             />
@@ -142,7 +142,7 @@ export default (props) => {
             {
                 action == 'details' ? <div>
                     {value}   <Button onClick={() => {
-                    setOpen(true)
+                    setOpen(true);
                 }} style={{
                         marginLeft: '10px'
                         // 修改邮箱
@@ -151,10 +151,10 @@ export default (props) => {
                     disabled={disabled}
                     value={value}
                     onClick={() => {
-                        setOpen(true)
+                        setOpen(true);
                     }} readOnly />
             }
 
         </div>
-    )
-}
+    );
+};

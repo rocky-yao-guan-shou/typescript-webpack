@@ -1,15 +1,15 @@
 import './index.scss';
-import { memo, Component, useMemo } from 'react';
-import { mapRedux } from '@/redux';
+import {memo, Component, useMemo} from 'react';
+import {mapRedux} from '@/redux';
 import setBreadcrumbAndTitle from 'src/components/setBreadcrumbAndTitle';
-import { tablePage } from 'src/components/TablePage';
-import { TableProps } from 'antd';
-import { getCustomerList } from '@/apis/page/LowerLevelCustomers/customerList'
+import {tablePage} from 'src/components/TablePage';
+import {TableProps} from 'antd';
+import {getCustomerList} from '@/apis/page/LowerLevelCustomers/customerList';
 import TopTitle from 'src/components/TopTitle';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 interface CustomerManagementProps {
-  pushRoute?: (path: string | Object) => void;
+  pushRoute?: (path: string | object) => void;
   routePaths?: {
     customerDetails: string;
   };
@@ -40,8 +40,8 @@ class CustomerList extends Component<
     selectedRowKey: string | null;
   }
 > {
-  renderSearch: any
-  renderTable: any
+  renderSearch: any;
+  renderTable: any;
   searchForm: {
     getFieldsValue?: (value: string[]) => any;
     setFieldsValue?: (values: any) => void;
@@ -52,7 +52,7 @@ class CustomerList extends Component<
     this.state = {
       ...this.state,
       selectedRowKey: null  //选中行
-    }
+    };
   }
 
   componentDidMount() { }
@@ -66,13 +66,13 @@ class CustomerList extends Component<
     const minutes = time.getMinutes();
     const seconds = time.getSeconds();
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
+  };
 
   // 定义表格列
   getColumns = () => {
-    const { t } = this.props
-    const { getFieldsValue = () => {} } = this.searchForm || {}
-    const { clientTypes } = getFieldsValue(['clientTypes']) || '300' // 获取客户类型
+    const {t} = this.props;
+    const {getFieldsValue = () => {}} = this.searchForm || {};
+    const {clientTypes} = getFieldsValue(['clientTypes']) || '300'; // 获取客户类型
 
     //合作方 列表
     const partnersList = [
@@ -109,7 +109,7 @@ class CustomerList extends Component<
         width: '15%',
         render: (text: number) => (<span>{text !== undefined ? '$' + String(text) : ''}</span>),
       },
-    ]
+    ];
     // 交易者 列表
     const traderList = [
       {
@@ -135,14 +135,14 @@ class CustomerList extends Component<
         key: 'balance',
         render: (text: number) => (<span>{text !== undefined ? '$' + String(text) : ''}</span>),
       },
-    ]
-    const list = clientTypes === '300' ? partnersList : traderList
-    return list as TableProps<any>['columns']
+    ];
+    const list = clientTypes === '300' ? partnersList : traderList;
+    return list as TableProps<any>['columns'];
   };
 
   // 表格数据源
   tableDataLoader = async (searchParams: any) => {
-    const { clientTypes, pageNumber, pageSize } = searchParams
+    const {clientTypes, pageNumber, pageSize} = searchParams;
 
     const handleSearchParams = {
       clientTypes,
@@ -152,36 +152,36 @@ class CustomerList extends Component<
     };
 
     const {
-      data: { resultList: list, ...otherData },
-    } = await getCustomerList({ ...handleSearchParams })
+      data: {resultList: list, ...otherData},
+    } = await getCustomerList({...handleSearchParams});
 
     //根据客户类型 更新表头
-    const { setFieldsValue = () => {} } = this.searchForm || {}
-    setFieldsValue({ clientTypes }) // 设置客户类型
+    const {setFieldsValue = () => {}} = this.searchForm || {};
+    setFieldsValue({clientTypes}); // 设置客户类型
 
 
     function buildTree(items: resultListType[]) {
-      const itemMap: { [key: string]: resultListType } = {}
-      let treeArr: resultListType[] = []
+      const itemMap: { [key: string]: resultListType } = {};
+      let treeArr: resultListType[] = [];
 
       // 第一次遍历：创建所有节点的映射，并初始化children数组
       items.forEach(item => {
-        itemMap[item.reference] = { ...item }
-        treeArr.push(itemMap[item.reference]) // 将所有节点添加到数组中
+        itemMap[item.reference] = {...item};
+        treeArr.push(itemMap[item.reference]); // 将所有节点添加到数组中
       });
 
       // 第二次遍历：建立父子关系
       items.forEach((item: resultListType) => {
         if (item.upper && itemMap[item.upper]) {
-          itemMap[item.upper].children = [itemMap[item.reference]]
-          treeArr = treeArr.filter(data => data.reference !== item.reference)  // 删除已处理的节点
+          itemMap[item.upper].children = [itemMap[item.reference]];
+          treeArr = treeArr.filter(data => data.reference !== item.reference);  // 删除已处理的节点
         }
       });
 
-      return treeArr
+      return treeArr;
     }
 
-    const result = buildTree(list)
+    const result = buildTree(list);
 
     return {
       ...otherData,
@@ -191,7 +191,7 @@ class CustomerList extends Component<
 
   // 表格搜索字段
   getSearchFields() {
-    const { t } = this.props
+    const {t} = this.props;
 
     return [
       {
@@ -204,8 +204,8 @@ class CustomerList extends Component<
         props: {
           allowClear: false,
           options: [
-            { label: t('Pages.LowerLevelCustomers.Partners'), value: '300' }, // 合作方
-            { label: t('Pages.LowerLevelCustomers.Trader'), value: '200' }, // 交易员
+            {label: t('Pages.LowerLevelCustomers.Partners'), value: '300'}, // 合作方
+            {label: t('Pages.LowerLevelCustomers.Trader'), value: '200'}, // 交易员
           ],
         },
       },
@@ -237,13 +237,13 @@ class CustomerList extends Component<
               //行部分
               onRow: (record: resultListType) => ({
                 onClick: () => {
-                  this.setState({ selectedRowKey: record.tradingAccount })
+                  this.setState({selectedRowKey: record.tradingAccount});
                 },
               }),
               //展开部分
               expandable: {
                 onExpand: (_: unknown, record: resultListType) => {
-                  this.setState({ selectedRowKey: record.tradingAccount })
+                  this.setState({selectedRowKey: record.tradingAccount});
                 }
               }
             },
@@ -258,7 +258,7 @@ class CustomerList extends Component<
 export default withTranslation()(
   mapRedux()(
     setBreadcrumbAndTitle((props: { t: (key: string) => string }) => {
-      const { t } = props;
+      const {t} = props;
       // 设置面包屑和标题
       return {
         breadcrumb: [

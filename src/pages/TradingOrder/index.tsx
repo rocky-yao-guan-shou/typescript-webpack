@@ -1,18 +1,18 @@
 import './index.scss';
-import React, { memo, Component, JSX } from 'react';
-import { mapRedux } from '@/redux';
+import React, {memo, Component, JSX} from 'react';
+import {mapRedux} from '@/redux';
 import setBreadcrumbAndTitle from 'src/components/setBreadcrumbAndTitle';
-import { tablePage } from 'src/components/TablePage';
-import { Button, Table, TableProps, Tag } from 'antd';
-import { getOrderDealReport } from '@/apis/page/tradingOrder';
+import {tablePage} from 'src/components/TablePage';
+import {Button, Table, TableProps, Tag} from 'antd';
+import {getOrderDealReport} from '@/apis/page/tradingOrder';
 import TopTitle from 'src/components/TopTitle';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 import dayjs from 'dayjs';
 import DetailsSlot from './DetailsSlot';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import {DownOutlined, UpOutlined} from '@ant-design/icons';
 
 interface CustomerManagementProps {
-  pushRoute?: (path: string | Object) => void;
+  pushRoute?: (path: string | object) => void;
   routePaths?: {
     customerDetails: string;
   };
@@ -48,8 +48,8 @@ class TradingOrderPage extends Component<
 > {
   language: string;
   selectOptions: { value: string; label: string; serverID: string }[];
-  renderSearch: any
-  renderTable: any
+  renderSearch: any;
+  renderTable: any;
 
   constructor(props: any) {
     super(props);
@@ -83,13 +83,13 @@ class TradingOrderPage extends Component<
             {true ? (
               <img
                 src="static/images/icon_gold.svg"
-                style={{ marginRight: 8 }}
+                style={{marginRight: 8}}
                 alt=""
               />
             ) : (
               <img
                 src="static/images/icon_silver.svg"
-                style={{ marginRight: 8 }}
+                style={{marginRight: 8}}
                 alt=""
               />
             )}
@@ -177,7 +177,7 @@ class TradingOrderPage extends Component<
         title: t('Pages.TradingOrder.ProfitAndLossUSD'), // 盈亏USD
         dataIndex: '盈亏USD',
         key: '盈亏USD',
-        render: (text) => <span style={{ color: '#00C656' }}>{text}</span>,
+        render: (text) => <span style={{color: '#00C656'}}>{text}</span>,
       },
       Table.EXPAND_COLUMN, //将展开按钮放到这里 最后一列
     ] as TableProps<any>['columns'];
@@ -185,16 +185,16 @@ class TradingOrderPage extends Component<
 
   // 表格数据源
   tableDataLoader = async (searchParams: any) => {
-    const { tradingAccount, createDate, orderStatus, pageNumber, pageSize } = searchParams
+    const {tradingAccount, createDate, orderStatus, pageNumber, pageSize} = searchParams;
     const {
       state: {
-        user: { userInfo: { relatedTradingAccounts = [] } = {} } = {},
+        user: {userInfo: {relatedTradingAccounts = []} = {}} = {},
       } = {},
     } = this.props;
     // 日期
     const [startTime, endTime] = createDate || ['', ''];
     // 账户类型
-    const serverID = relatedTradingAccounts.find((item: { tradingAccount: string; serverID: string }) => item.tradingAccount === tradingAccount)?.serverID || ''
+    const serverID = relatedTradingAccounts.find((item: { tradingAccount: string; serverID: string }) => item.tradingAccount === tradingAccount)?.serverID || '';
 
     const handleSearchParams = {
       startTime: startTime === '' ? '' : dayjs(startTime).format('YYYY-MM-DD'),
@@ -207,8 +207,8 @@ class TradingOrderPage extends Component<
     };
 
     const {
-      data: { resultList: list, ...otherData },
-    } = await getOrderDealReport({ ...handleSearchParams });
+      data: {resultList: list, ...otherData},
+    } = await getOrderDealReport({...handleSearchParams});
 
     return {
       ...otherData,
@@ -221,11 +221,11 @@ class TradingOrderPage extends Component<
     const {
       t,
       state: {
-        user: { userInfo: { relatedTradingAccounts = [] } = {} } = {},
+        user: {userInfo: {relatedTradingAccounts = []} = {}} = {},
       } = {},
-    } = this.props
+    } = this.props;
     // 默认选中第一个账户
-    const tradingAccountValue = relatedTradingAccounts.length > 0 ? (relatedTradingAccounts[0]?.tradingAccount || '') : ''
+    const tradingAccountValue = relatedTradingAccounts.length > 0 ? (relatedTradingAccounts[0]?.tradingAccount || '') : '';
 
     return [
       {
@@ -252,8 +252,8 @@ class TradingOrderPage extends Component<
         props: {
           options: [
             //0全部 1已结 2未结
-            { label: t('Pages.TradingOrder.ClosedOrders'), value: '1' }, //已结订单
-            { label: t('Pages.TradingOrder.OpenOrders'), value: '2' }, //未结订单
+            {label: t('Pages.TradingOrder.ClosedOrders'), value: '1'}, //已结订单
+            {label: t('Pages.TradingOrder.OpenOrders'), value: '2'}, //未结订单
           ],
           block: true,
           // className: "order-filter-radio",
@@ -293,8 +293,8 @@ class TradingOrderPage extends Component<
             },
             tableProps: {
               expandable: {
-                expandedRowRender: (record: DataType) => <p style={{ margin: 0 }}><DetailsSlot record={record} /></p>, //插槽在这里
-                expandIcon: ({ expanded, onExpand, record }: { expanded: boolean; onExpand: (record: any, e: React.MouseEvent<HTMLElement>) => void; record: DataType }) =>
+                expandedRowRender: (record: DataType) => <p style={{margin: 0}}><DetailsSlot record={record} /></p>, //插槽在这里
+                expandIcon: ({expanded, onExpand, record}: { expanded: boolean; onExpand: (record: any, e: React.MouseEvent<HTMLElement>) => void; record: DataType }) =>
                 (<Button
                   type="text"
                   onClick={(e) => onExpand(record, e)}
@@ -313,7 +313,7 @@ class TradingOrderPage extends Component<
 export default withTranslation()(
   mapRedux()(
     setBreadcrumbAndTitle((props: { t: (key: string) => string }) => {
-      const { t } = props;
+      const {t} = props;
       // 设置面包屑和标题
       return {
         breadcrumb: [

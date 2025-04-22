@@ -1,6 +1,6 @@
-import { useTranslation } from "react-i18next";
-import "./index.scss"
-import React, { useState, useEffect } from 'react'
+import {useTranslation} from "react-i18next";
+import "./index.scss";
+import React, {useState, useEffect} from 'react';
 
 interface DetailsSlotProps {
     record?: { [key: string]: any };
@@ -10,7 +10,7 @@ const DetailsSlot: React.FC<DetailsSlotProps> = ({
     record = {}
 }) => {
 
-    const { t } = useTranslation()
+    const {t} = useTranslation();
 
     const [list, setList] = useState([
         {
@@ -37,11 +37,11 @@ const DetailsSlot: React.FC<DetailsSlotProps> = ({
         //     name: 'profit',
         //     content: ''
         // },
-    ])
+    ]);
     useEffect(() => {
-        const updateList = list.map(item => (record[item.name] !== undefined) ? { ...item, content: String(record[item.name]) } : item);
-        setList(updateList)  
-    }, [])
+        const updateList = list.map(item => (record[item.name] !== undefined) ? {...item, content: String(record[item.name])} : item);
+        setList(updateList);  
+    }, []);
 
     return (
         <div className="order-details-slot">
@@ -56,4 +56,4 @@ const DetailsSlot: React.FC<DetailsSlotProps> = ({
     );
 };
 
-export default DetailsSlot
+export default DetailsSlot;

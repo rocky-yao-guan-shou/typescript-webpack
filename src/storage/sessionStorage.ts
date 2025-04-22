@@ -4,7 +4,7 @@ import {
 class SessionStorage {
     static setItem(key: string, value: string) {
         if (CheckDataType.isArray(value) || CheckDataType.isObject(value)) {
-            value = JSON.stringify(value)
+            value = JSON.stringify(value);
         }
         sessionStorage.setItem(key, value);
     }

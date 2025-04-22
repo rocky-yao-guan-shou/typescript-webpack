@@ -1,9 +1,9 @@
 import "./index.scss";
 import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle";
-import React, { memo, FC, useEffect } from "react";
-import { DepositLinkSite } from "@/apis";
-import { addRouterApi, Link } from 'src/router';
-import { Button, Result, Skeleton } from 'antd';
+import React, {memo, FC, useEffect} from "react";
+import {DepositLinkSite} from "@/apis";
+import {addRouterApi, Link} from 'src/router';
+import {Button, Result, Skeleton} from 'antd';
 
 // 权限控制
 interface PayPageProps {
@@ -29,25 +29,25 @@ const PayPage: FC<PayPageProps> = (props) => {
     },
     pushRoute,
     routePaths
-  } = props
-  const [loading, setLoading] = React.useState(true)
-  const [status, setStatus] = React.useState(false)
-  const [data, setData] = React.useState({})
+  } = props;
+  const [loading, setLoading] = React.useState(true);
+  const [status, setStatus] = React.useState(false);
+  const [data, setData] = React.useState({});
   useEffect(() => {
     DepositLinkSite({
       checkoutId,
       chargeId
     }).then(res => {
-      setLoading(false)
-      setStatus(true)
-      setData(data)
+      setLoading(false);
+      setStatus(true);
+      setData(data);
     }).catch((error) => {
 
-      console.log('error==', error)
-      setLoading(false)
-      setData(error)
-      setStatus(false)
-    })
+      console.log('error==', error);
+      setLoading(false);
+      setData(error);
+      setStatus(false);
+    });
   }, []);
   return (
     <div className="home">
@@ -75,7 +75,7 @@ const PayPage: FC<PayPageProps> = (props) => {
 
                     onClick={() => {
 
-                      pushRoute(routePaths.account)
+                      pushRoute(routePaths.account);
 
                     }}
                   >
@@ -93,7 +93,7 @@ const PayPage: FC<PayPageProps> = (props) => {
 
                     onClick={() => {
 
-                      pushRoute(routePaths.account)
+                      pushRoute(routePaths.account);
 
                     }}
                   >

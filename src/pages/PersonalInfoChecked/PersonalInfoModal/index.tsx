@@ -1,13 +1,13 @@
 import "./index.scss";
-import { Button, Modal, Space } from 'antd';
+import {Button, Modal, Space} from 'antd';
 import DetailsForm from "src/components/DetailsForm";
 
-import { FC, useState, useEffect } from "react";
-import { useTranslation } from 'react-i18next';
+import {FC, useState, useEffect} from "react";
+import {useTranslation} from 'react-i18next';
 
-import { Form } from 'antd';
+import {Form} from 'antd';
 
-import { FormItemProps, SlotComponentProps } from '@/types/detailsForm'
+import {FormItemProps, SlotComponentProps} from '@/types/detailsForm';
 
 interface PersonalInfoModalProps {
   formInfoData: {
@@ -29,7 +29,7 @@ const PersonalInfoModal: FC<PersonalInfoModalProps> = ({
   submitModelForm = () => {}
 }) => {
 
-  const { t } = useTranslation()
+  const {t} = useTranslation();
 
   useEffect(() => {
     console.log({
@@ -44,8 +44,8 @@ const PersonalInfoModal: FC<PersonalInfoModalProps> = ({
       handleChineseName: formInfoData.familyName + formInfoData.givenName,
       handleEnglishName: formInfoData.lastName + ' ' + formInfoData.firstName,
       uploadCard: '已上传'
-    })
-  }, [formInfoData])
+    });
+  }, [formInfoData]);
 
   //DetailsForm的控制渲染数据
   const formItemPropData: [FormItemProps, SlotComponentProps][] = [
@@ -183,10 +183,10 @@ const PersonalInfoModal: FC<PersonalInfoModalProps> = ({
   const switchOpen = () => setIsOpen(!isOpen);
   const submitModel = () => {
     console.log( 'formProps.form.getFieldsValue()');
-    submitModelForm()
-  }
+    submitModelForm();
+  };
 
-  const [modelForm] = Form.useForm()
+  const [modelForm] = Form.useForm();
   // 提交成功后的回调
   const onFinish = (values: any) => {
     console.log(values, 'onFinishonFinishonFinish');
@@ -201,20 +201,20 @@ const PersonalInfoModal: FC<PersonalInfoModalProps> = ({
     number: {
       range: '${label} must be between ${min} and ${max}',
     },
-  }
+  };
 
-  let formProps = {
+  const formProps = {
     name: 'checkInfoForm',
     disabled: true,
     onFinish,
     validateMessages,
     form: modelForm, // 确保传递 form 实例
-    labelCol: { span: 12 },
-    wrapperCol: { span: 24 },
-    style: { maxWidth: 482 },
+    labelCol: {span: 12},
+    wrapperCol: {span: 24},
+    style: {maxWidth: 482},
     layout: 'vertical', //layout="vertical | horizonta | linline"
     // initialValues
-  }
+  };
 
   return (
     <>
@@ -232,8 +232,8 @@ const PersonalInfoModal: FC<PersonalInfoModalProps> = ({
         />
       </Modal>
     </>
-  )
-}
+  );
+};
 
 
-export default PersonalInfoModal
+export default PersonalInfoModal;

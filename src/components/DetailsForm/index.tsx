@@ -1,22 +1,22 @@
-import "./index.scss"
-import React, { Fragment, useState, useEffect } from 'react';
-import { Spin, Button, Form, Input, Select, Radio, DatePicker, Image } from 'antd';
-import { addRouterApi } from 'src/router';
+import "./index.scss";
+import React, {Fragment, useState, useEffect} from 'react';
+import {Spin, Button, Form, Input, Select, Radio, DatePicker, Image} from 'antd';
+import {addRouterApi} from 'src/router';
 
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { CameraOutlined } from '@ant-design/icons';
-import type { UploadFile } from 'antd';
-import { DetailsFormProps } from '@/types/detailsForm'
+import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
+import {CameraOutlined} from '@ant-design/icons';
+import type {UploadFile} from 'antd';
+import {DetailsFormProps} from '@/types/detailsForm';
 import CheckEmailAndMobile from "./CheckEmailAndMobile";
 import CertificateUpload from "src/pages/PersonalInfoWrite/CertificateUpload";
 import Upload from 'src/components/Upload/ui/index';
-import { uploadImg } from "src/apis";
+import {uploadImg} from "src/apis";
 // import CertificateUpload from "src/pages/PersonalInfoWrite/CertificateUpload";
 
 // type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 // 解构出组件
-const { TextArea } = Input;
+const {TextArea} = Input;
 
 const DetailsForm: React.FC<DetailsFormProps> = ({
   formItemPropData = [],
@@ -25,9 +25,9 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
     disabled: false,
     validateMessages: {},
     form: Form.useForm()[0], // 确保传递 form 实例
-    labelCol: { span: 12 },
-    wrapperCol: { span: 24 },
-    style: { maxWidth: 482 },
+    labelCol: {span: 12},
+    wrapperCol: {span: 24},
+    style: {maxWidth: 482},
     layout: 'vertical', //layout="vertical | horizonta | linline"
     onFinish: () => { },
     initialValues: {}
@@ -54,8 +54,8 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
             formItemPropData && formItemPropData.length > 0 && formItemPropData.map((item, index) => (
 
               (() => {
-                const itemProps = item[0]
-                const scopeData = item[1]
+                const itemProps = item[0];
+                const scopeData = item[1];
                 // console.log(itemProps, 'itemProps', scopeData, 'scopeData')
 
                 switch (scopeData.type) {
@@ -68,7 +68,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                             disabled={formDisabled}
                             readOnly={formReadOnly}
                             variant={formReadOnly ? 'borderless' : 'outlined'}
-                            style={{ height: '40px' }}
+                            style={{height: '40px'}}
                             {...scopeData.props}
                           />
                         </Form.Item>
@@ -88,7 +88,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                                   disabled={formDisabled}
                                   readOnly={formReadOnly}
                                   variant={formReadOnly ? 'borderless' : 'outlined'}
-                                  style={{ height: '40px' }}
+                                  style={{height: '40px'}}
                                   {...option.props}
                                 />
                               </Form.Item>
@@ -108,7 +108,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                             variant={formReadOnly ? 'borderless' : 'outlined'}
                             placeholder="input password"
                             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                            style={{ height: '40px' }}
+                            style={{height: '40px'}}
                             {...scopeData.props}
                           />
                           {
@@ -142,7 +142,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                             disabled={formDisabled}
                             readOnly={formReadOnly}
                             variant={formReadOnly ? 'borderless' : 'outlined'}
-                            style={{ height: '40px' }}
+                            style={{height: '40px'}}
                             // pattern="[0-9]*"
                             {...scopeData.props}
                           />
@@ -159,7 +159,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                               disabled={formDisabled}
                               readOnly={formReadOnly}
                               variant={formReadOnly ? 'borderless' : 'outlined'}
-                              style={{ height: '40px' }}  //样式在ant-input覆盖
+                              style={{height: '40px'}}  //样式在ant-input覆盖
                               // pattern="[0-9]*"
                               {...scopeData.options[0].props}
                               addonBefore={(Array.isArray(itemProps) && <Form.Item {...itemProps[1]} key={itemProps[1].name} noStyle>
@@ -194,7 +194,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                             disabled={formDisabled || formReadOnly}
                             readOnly={formReadOnly}
                             variant={formReadOnly ? 'borderless' : 'outlined'}
-                            style={{ height: '40px' }}
+                            style={{height: '40px'}}
                             {...scopeData.props}
                           >
                           </Select>
@@ -210,7 +210,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                             disabled={formDisabled || formReadOnly}
                             readOnly={formReadOnly}
                             variant={formReadOnly ? 'borderless' : 'outlined'}
-                            style={{ width: '100%', height: '40px' }}
+                            style={{width: '100%', height: '40px'}}
                             {...scopeData.props}
                           >
                           </DatePicker>
@@ -224,13 +224,13 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                         <Form.Item {...itemProps} key={Array.isArray(itemProps) ? index : itemProps.name}>
                           <div style={{
                             ...scopeData.boxStyle,
-                            ...(formDisabled || formReadOnly ? { pointerEvents: 'none', opacity: '0.5' } : {})
+                            ...(formDisabled || formReadOnly ? {pointerEvents: 'none', opacity: '0.5'} : {})
                           }}>
                             {scopeData.datas?.map(data => (
                               <div
                                 style={{
                                   ...scopeData.itemStyle,
-                                  ...(checkPayWayIndex === data.id ? { border: '1px solid #D4A767' } : {})
+                                  ...(checkPayWayIndex === data.id ? {border: '1px solid #D4A767'} : {})
                                 }}
                                 onClick={() => scopeData.onClick(data)}
                                 key={data.id}
@@ -296,7 +296,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                                 {item.props.fileList.length > 0 ? null : (
                                   <div>
                                     <img
-                                      style={{ width: '204px', height: '128px', marginTop: '8px' }}
+                                      style={{width: '204px', height: '128px', marginTop: '8px'}}
                                       src={item.datas.imgUrl} alt=""
                                     />
                                     <div className="id-card-upload-div">
@@ -335,7 +335,7 @@ const DetailsForm: React.FC<DetailsFormProps> = ({
                         </Form.Item>)}
                       </Fragment>
 
-                    )
+                    );
                   //按钮
                   case 'Button':
                     return (

@@ -1,17 +1,17 @@
 import './index.scss';
-import { memo, Component } from 'react';
-import { mapRedux } from '@/redux';
+import {memo, Component} from 'react';
+import {mapRedux} from '@/redux';
 import setBreadcrumbAndTitle from 'src/components/setBreadcrumbAndTitle';
-import { tablePage } from 'src/components/TablePage';
-import { TableProps, Tag } from 'antd';
-import { getCustomerDepositWithdrawalReportList } from '@/apis/page/LowerLevelCustomers/depositAndWithdrawalReport'
-import { getCustomerTradingAccountList } from '@/apis/page/LowerLevelCustomers/tradingOrder';
+import {tablePage} from 'src/components/TablePage';
+import {TableProps, Tag} from 'antd';
+import {getCustomerDepositWithdrawalReportList} from '@/apis/page/LowerLevelCustomers/depositAndWithdrawalReport';
+import {getCustomerTradingAccountList} from '@/apis/page/LowerLevelCustomers/tradingOrder';
 import TopTitle from 'src/components/TopTitle';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 import dayjs from 'dayjs';
 
 interface CustomerManagementProps {
-  pushRoute?: (path: string | Object) => void;
+  pushRoute?: (path: string | object) => void;
   routePaths?: {
     customerDetails: string;
   };
@@ -48,8 +48,8 @@ class DepositAndWithdrawalReport extends Component<
 > {
   language: string;
   selectOptions: { value: string; label: string; serverID: string }[];
-  renderSearch: any
-  renderTable: any
+  renderSearch: any;
+  renderTable: any;
   searchForm: {
     getFieldsValue?: (value: string[]) => any;
     setFieldsValue?: (values: any) => void;
@@ -60,12 +60,12 @@ class DepositAndWithdrawalReport extends Component<
     this.state = {
       ...this.state,
       accountInfoData: [], // 账户信息数据
-    }
+    };
   }
 
   async componentDidMount() {
     try {
-      const { data = [] } = await getCustomerTradingAccountList('300')
+      const {data = []} = await getCustomerTradingAccountList('300');
       const accountInfoData = data.map((item: AccountInfoData) => (
         {
           ...item,
@@ -73,15 +73,15 @@ class DepositAndWithdrawalReport extends Component<
           eLabelKey: item.ib + ' ' + item.firstName + ' ' + item.lastName,
           valueKey: item.ib
         }
-      ))
-      this.setState({ ...this.state, accountInfoData })
+      ));
+      this.setState({...this.state, accountInfoData});
     }
     catch (error) { }
   }
   // 定义表格列
   getColumns = () => {
-    const { t } = this.props
-    const language = this.props.state.common.language
+    const {t} = this.props;
+    const language = this.props.state.common.language;
     return [
       {
         title: t('Pages.LowerLevelCustomers.Date'), // 日期
@@ -100,19 +100,19 @@ class DepositAndWithdrawalReport extends Component<
         render: (key: number) => {
           const handleCfType = (str: string | number) => {
             const arr = [
-              { key: '100', color: 'error', value: t('Pages.DepositAndWithdrawalReport.Deposit') }, //入金
-              { key: '200', color: 'processing', value: t('Pages.DepositAndWithdrawalReport.Withdrawal') },//出金
-              { key: '300', color: 'processing', value: t('Pages.DepositAndWithdrawalReport.DeductionPhysical') }, //实货扣款
-            ]
-            return arr.find(item => item.key === String(str)) || { key: '', color: '', value: '' }
-          }
-          const { color, value } = handleCfType(key)
+              {key: '100', color: 'error', value: t('Pages.DepositAndWithdrawalReport.Deposit')}, //入金
+              {key: '200', color: 'processing', value: t('Pages.DepositAndWithdrawalReport.Withdrawal')},//出金
+              {key: '300', color: 'processing', value: t('Pages.DepositAndWithdrawalReport.DeductionPhysical')}, //实货扣款
+            ];
+            return arr.find(item => item.key === String(str)) || {key: '', color: '', value: ''};
+          };
+          const {color, value} = handleCfType(key);
 
           const tagProps = {
             bordered: false,
             color,
-            style: { borderRadius: '12px' }
-          }
+            style: {borderRadius: '12px'}
+          };
           return (
             <span>
               <Tag {...tagProps}>{value}</Tag>
@@ -127,14 +127,14 @@ class DepositAndWithdrawalReport extends Component<
         render: (text) => {
           if (text === null) return '--';
           function handleTradingWallet(str: string | number) {
-            const stri = String(str)
+            const stri = String(str);
             if (stri.length < 8) return stri;
-            const start = stri.substring(0, 4)
-            const end = stri.slice(-4)
-            const middle = '*'.repeat(stri.length - 8) // 中间部分替换为星号
-            return start + middle + end
+            const start = stri.substring(0, 4);
+            const end = stri.slice(-4);
+            const middle = '*'.repeat(stri.length - 8); // 中间部分替换为星号
+            return start + middle + end;
           }
-          return (<span>{handleTradingWallet(text)}</span>)  //处理格式
+          return (<span>{handleTradingWallet(text)}</span>);  //处理格式
         }
       },
       {
@@ -150,24 +150,24 @@ class DepositAndWithdrawalReport extends Component<
         render: (text) => {
           function handleStatesColor(str: string | number) {
             const arr = [
-              { key: '100', value: '#49505E' }, //申请中
-              { key: '200', value: '#D4A767' }, //审批中
-              { key: '300', value: '#49505E' },//已完成
-              { key: '400', value: '#FF4D4F' }, //交易失败 
-            ]
-            return arr.find(item => item.key === String(str))?.value || String(str) || ''
+              {key: '100', value: '#49505E'}, //申请中
+              {key: '200', value: '#D4A767'}, //审批中
+              {key: '300', value: '#49505E'},//已完成
+              {key: '400', value: '#FF4D4F'}, //交易失败 
+            ];
+            return arr.find(item => item.key === String(str))?.value || String(str) || '';
           }
 
           function handleStates(str: string | number) {
             const arr = [
-              { key: '100', value: t('Pages.LowerLevelCustomers.Requesting') }, //请求中
-              { key: '200', value: t('Pages.LowerLevelCustomers.Processing') },//处理中
-              { key: '300', value: t('Pages.LowerLevelCustomers.Finish') }, //完成
-              { key: '400', value: t('Pages.LowerLevelCustomers.TransactionFailed') }, //交易失败
-            ]
-            return arr.find(item => item.key === String(str))?.value || str || ''
+              {key: '100', value: t('Pages.LowerLevelCustomers.Requesting')}, //请求中
+              {key: '200', value: t('Pages.LowerLevelCustomers.Processing')},//处理中
+              {key: '300', value: t('Pages.LowerLevelCustomers.Finish')}, //完成
+              {key: '400', value: t('Pages.LowerLevelCustomers.TransactionFailed')}, //交易失败
+            ];
+            return arr.find(item => item.key === String(str))?.value || str || '';
           }
-          return (<span style={{ color: handleStatesColor(text) }}>{handleStates(text)}</span>)
+          return (<span style={{color: handleStatesColor(text)}}>{handleStates(text)}</span>);
         }
       },
       {
@@ -180,18 +180,18 @@ class DepositAndWithdrawalReport extends Component<
 
   // 表格数据源
   tableDataLoader = async (searchParams: any) => {
-    const { accountInfoData } = this.state
+    const {accountInfoData} = this.state;
 
-    const { tradingAccount, createDate, clientTypes, orderStatus, pageNumber, pageSize } = searchParams
+    const {tradingAccount, createDate, clientTypes, orderStatus, pageNumber, pageSize} = searchParams;
     // 日期
-    const [startTime, endTime] = createDate || ['', '']
+    const [startTime, endTime] = createDate || ['', ''];
     // 账户数据 300合作方取 ib 200交易者取 tradingAccount serverID
     const accData = clientTypes === '300'
-      ? { ib: tradingAccount }
+      ? {ib: tradingAccount}
       : {
         tradingAccount,
         serverID: accountInfoData.find((item: AccountInfoData) => item.tradingAccount === tradingAccount)?.serverID || undefined
-      }
+      };
 
     const handleSearchParams = {
       // ...searchParams,
@@ -205,8 +205,8 @@ class DepositAndWithdrawalReport extends Component<
     };
 
     const {
-      data: { resultList: list, ...otherData },
-    } = await getCustomerDepositWithdrawalReportList({ ...handleSearchParams });
+      data: {resultList: list, ...otherData},
+    } = await getCustomerDepositWithdrawalReportList({...handleSearchParams});
 
     return {
       ...otherData,
@@ -216,10 +216,10 @@ class DepositAndWithdrawalReport extends Component<
 
   // 表格搜索字段
   getSearchFields() {
-    const { t } = this.props
-    const language = this.props.state.common.language
-    const { accountInfoData } = this.state
-    const { setFieldsValue = () => { } } = this.searchForm || {}
+    const {t} = this.props;
+    const language = this.props.state.common.language;
+    const {accountInfoData} = this.state;
+    const {setFieldsValue = () => { }} = this.searchForm || {};
 
     return [
       {
@@ -230,8 +230,8 @@ class DepositAndWithdrawalReport extends Component<
           initialValue: '300',
           onChange: async (value: string) => {
             try {
-              setFieldsValue({ tradingAccount: undefined })
-              const { data = [] } = await getCustomerTradingAccountList(value)
+              setFieldsValue({tradingAccount: undefined});
+              const {data = []} = await getCustomerTradingAccountList(value);
               const accountInfoData = data.map((item: AccountInfoData) => (
                 value === '300'
                   ? {
@@ -246,8 +246,8 @@ class DepositAndWithdrawalReport extends Component<
                     eLabelKey: item.tradingAccount + ' ' + item.firstName + ' ' + item.lastName,
                     valueKey: item.tradingAccount
                   }
-              ))
-              this.setState({ ...this.state, accountInfoData })
+              ));
+              this.setState({...this.state, accountInfoData});
             }
             catch (error) {}
           }
@@ -255,8 +255,8 @@ class DepositAndWithdrawalReport extends Component<
         props: {
           allowClear: false,
           options: [
-            { label: t('Pages.LowerLevelCustomers.Partners'), value: '300' }, // 合作方
-            { label: t('Pages.LowerLevelCustomers.Trader'), value: '200' }, // 交易员
+            {label: t('Pages.LowerLevelCustomers.Partners'), value: '300'}, // 合作方
+            {label: t('Pages.LowerLevelCustomers.Trader'), value: '200'}, // 交易员
           ],
         },
       },
@@ -281,11 +281,11 @@ class DepositAndWithdrawalReport extends Component<
         props: {
           allowClear: false,
           options: [
-            { label: t('Pages.LowerLevelCustomers.All'), value: '' }, // 全部
-            { label: t('Pages.LowerLevelCustomers.Requesting'), value: '100' }, // 请求中
-            { label: t('Pages.LowerLevelCustomers.Processing'), value: '200' }, // 处理中
-            { label: t('Pages.LowerLevelCustomers.Finish'), value: '300' }, // 完成
-            { label: t('Pages.LowerLevelCustomers.TransactionFailed'), value: '400' }, // 交易失败
+            {label: t('Pages.LowerLevelCustomers.All'), value: ''}, // 全部
+            {label: t('Pages.LowerLevelCustomers.Requesting'), value: '100'}, // 请求中
+            {label: t('Pages.LowerLevelCustomers.Processing'), value: '200'}, // 处理中
+            {label: t('Pages.LowerLevelCustomers.Finish'), value: '300'}, // 完成
+            {label: t('Pages.LowerLevelCustomers.TransactionFailed'), value: '400'}, // 交易失败
           ],
         },
       },
@@ -331,7 +331,7 @@ class DepositAndWithdrawalReport extends Component<
 export default withTranslation()(
   mapRedux()(
     setBreadcrumbAndTitle((props: { t: (key: string) => string }) => {
-      const { t } = props;
+      const {t} = props;
       // 设置面包屑和标题
       return {
         breadcrumb: [

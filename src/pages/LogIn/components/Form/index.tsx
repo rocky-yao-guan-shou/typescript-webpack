@@ -1,19 +1,19 @@
 'use client';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import cn from 'classnames';
 // import { cn } from "@/lib/utils"
-import type { FormProps } from 'antd';
+import type {FormProps} from 'antd';
 // import { useRouter } from "@/lib/i18n"
-import { Button, Checkbox, Form, Input, Flex, Select, Row, Col, Mentions, message } from 'antd';
+import {Button, Checkbox, Form, Input, Flex, Select, Row, Col, Mentions, message} from 'antd';
 import EmailPhone from '@/components/EmailPhone';
-import { InputCode } from '@/components/VerificationCode';
-import { EmailOrSmsSendCode, Register, Login, GetUserInfo } from '@/apis';
-import { addRouterApi, Link } from 'src/router';
+import {InputCode} from '@/components/VerificationCode';
+import {EmailOrSmsSendCode, Register, Login, GetUserInfo} from '@/apis';
+import {addRouterApi, Link} from 'src/router';
 // import Link from 'next/link';
-import { emailReg, passwordReg } from '@/utils';
-import { codeReg } from "@/utils";
+import {emailReg, passwordReg} from '@/utils';
+import {codeReg} from "@/utils";
 import Token from '@/apis/request/token';
-import { withTranslation, WithTranslation, useTranslation } from 'react-i18next';
+import {withTranslation, WithTranslation, useTranslation} from 'react-i18next';
 
 import './index.scss';
 
@@ -48,8 +48,8 @@ const LoginForm = (props: LoginFormProps) => {
     formName,
     pushRoute,
     routePaths
-  } = props
-  const { t } = useTranslation()
+  } = props;
+  const {t} = useTranslation();
 
 
   const [isUseEmail, setIsUseEmail] = useState(true);
@@ -59,14 +59,14 @@ const LoginForm = (props: LoginFormProps) => {
     getFieldsValue,
     getFieldValue,
     setFieldsValue
-  } = form
+  } = form;
 
   const [rememberAccount, setRememberAccount] = useState<{ isUseEmail?: boolean, account?: any, remember?: boolean }>({});
   const {
     isUseEmail: $isUseEmail = isUseEmail,
     account,
     remember
-  } = rememberAccount
+  } = rememberAccount;
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
 
@@ -83,9 +83,9 @@ const LoginForm = (props: LoginFormProps) => {
       } = {},
       code,
       password
-    } = values
-    setLoading(true)
-    let data = await
+    } = values;
+    setLoading(true);
+    const data = await
       Login(
         {
           Password: password,
@@ -103,8 +103,8 @@ const LoginForm = (props: LoginFormProps) => {
             Mobile: phone,
           })
         }
-      ).then(async ({ data }) => {
-        Token.set(data)
+      ).then(async ({data}) => {
+        Token.set(data);
         await GetUserInfo(
           {},
           {
@@ -115,20 +115,20 @@ const LoginForm = (props: LoginFormProps) => {
               globalErrorRedirect: false
             }
           }
-        )
+        );
 
 
-        message.success(t('Pages.login.loginSuccessful'))
+        message.success(t('Pages.login.loginSuccessful'));
         setTimeout(() => {
 
-          pushRoute(routePaths.index)
+          pushRoute(routePaths.index);
 
 
-        }, 1000)
-        setLoading(false)
+        }, 1000);
+        setLoading(false);
       }).catch(() => {
-        setLoading(false)
-      })
+        setLoading(false);
+      });
 
 
 
@@ -145,18 +145,18 @@ const LoginForm = (props: LoginFormProps) => {
 
   useEffect(() => {
 
-    let $rememberAccount = JSON.parse(window.localStorage.getItem(
+    const $rememberAccount = JSON.parse(window.localStorage.getItem(
       'rememberAccount'
-    ) || "{}")
+    ) || "{}");
     if (Object.keys($rememberAccount).length < 0) onEmailOrPhoneChange(true);
     
-    setRememberAccount($rememberAccount)
+    setRememberAccount($rememberAccount);
     //初始set isUseEmail
-    setIsUseEmail(($rememberAccount.isUseEmail === undefined || $rememberAccount.isUseEmail === null) ? isUseEmail : $rememberAccount.isUseEmail )
+    setIsUseEmail(($rememberAccount.isUseEmail === undefined || $rememberAccount.isUseEmail === null) ? isUseEmail : $rememberAccount.isUseEmail );
     setFieldsValue({
       emailPhone: $rememberAccount.account,
       remember: $rememberAccount.remember,
-    })
+    });
 
 
     // AccountInfo()
@@ -171,24 +171,24 @@ const LoginForm = (props: LoginFormProps) => {
   const onEmailOrPhoneChange = (value: boolean) => {
     setFieldsValue({
       emailPhone: undefined
-    })
+    });
 
-    const remember = getFieldValue('remember')
+    const remember = getFieldValue('remember');
 
     if (remember) {
       localStorage.setItem('rememberAccount', JSON.stringify({
         isUseEmail: value,
         // account: emailPhone,
         remember
-      }))
+      }));
     } else {
       localStorage.setItem('rememberAccount', JSON.stringify({
         isUseEmail: value,
-      }))
+      }));
     }
 
-    setIsUseEmail(value)
-  }
+    setIsUseEmail(value);
+  };
 
   return (
     <div className='login-form'>
@@ -196,11 +196,11 @@ const LoginForm = (props: LoginFormProps) => {
         form={form}
         name={formName}
         layout="vertical"
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-        style={{ minWidth: 300, margin: 'auto', maxWidth: 360 }}
+        labelCol={{span: 24}}
+        wrapperCol={{span: 24}}
+        style={{minWidth: 300, margin: 'auto', maxWidth: 360}}
         size='large'
-        initialValues={{ remember, emailPhone: account }}
+        initialValues={{remember, emailPhone: account}}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -248,27 +248,27 @@ const LoginForm = (props: LoginFormProps) => {
                       email,
                       phone,
                       region
-                    } = value
+                    } = value;
                     if (isUseEmail) {
                       if (!email) {
-                        return Promise.reject(t('Components.EmailPhone.email.verify1'))
+                        return Promise.reject(t('Components.EmailPhone.email.verify1'));
                       }
 
 
                       if (!email.match(emailReg)) {
-                        return Promise.reject(t('Components.EmailPhone.email.verify2'))
+                        return Promise.reject(t('Components.EmailPhone.email.verify2'));
                       }
                     } else {
 
                       if (!region) {
-                        return Promise.reject(t('Components.EmailPhone.phone.verify3'))
+                        return Promise.reject(t('Components.EmailPhone.phone.verify3'));
                       }
 
                       if (!phone) {
-                        return Promise.reject(t('Components.EmailPhone.phone.verify1'))
+                        return Promise.reject(t('Components.EmailPhone.phone.verify1'));
                       }
                     }
-                    return Promise.resolve()
+                    return Promise.resolve();
                   }
                 }]}
 
@@ -277,21 +277,21 @@ const LoginForm = (props: LoginFormProps) => {
 
               <EmailPhone
                 onChange={(v) => {
-                  const remember = getFieldValue('remember')
+                  const remember = getFieldValue('remember');
                   if (remember) {
                     localStorage.setItem('rememberAccount', JSON.stringify({
                       isUseEmail,
                       account: v,
                       remember
-                    }))
+                    }));
                   } else {
                     localStorage.setItem('rememberAccount', JSON.stringify({
 
-                    }))
+                    }));
                   }
-                  console.log('v==', v)
+                  console.log('v==', v);
                 }}
-                type={isUseEmail ? 'email' : 'phone'} value={{ email: '', phone: '' }} />
+                type={isUseEmail ? 'email' : 'phone'} value={{email: '', phone: ''}} />
 
             </Form.Item>
 
@@ -308,19 +308,19 @@ const LoginForm = (props: LoginFormProps) => {
                 {
                   required: true,
                   validator: (rule, value = '',) => {
-                    const confirmPassword = getFieldValue('confirmPassword')
+                    const confirmPassword = getFieldValue('confirmPassword');
                     if (value.trim() === '') {
-                      return Promise.reject(t('Pages.login.inputPassword'))
+                      return Promise.reject(t('Pages.login.inputPassword'));
                     }
                     if (!value.match(passwordReg)) {
-                      return Promise.reject(t('Pages.login.err_msg_pwd'))
+                      return Promise.reject(t('Pages.login.err_msg_pwd'));
                     }
                     // if (confirmPassword && confirmPassword !== value) {
                     //   return Promise.reject(t('passwordInconsistency'))
                     // }
 
 
-                    return Promise.resolve()
+                    return Promise.resolve();
                   }
                 }
               ]}
@@ -340,14 +340,14 @@ const LoginForm = (props: LoginFormProps) => {
                   required: true,
                   validator: (rule, value = '',) => {
                     if (!value.trim()) {
-                      return Promise.reject(t('Components.VerificationCode.captcha.verify1'))
+                      return Promise.reject(t('Components.VerificationCode.captcha.verify1'));
 
                     }
 
                     if (!value.match(codeReg)) {
-                      return Promise.reject(t('Components.VerificationCode.captcha.verify2'))
+                      return Promise.reject(t('Components.VerificationCode.captcha.verify2'));
                     }
-                    return Promise.resolve()
+                    return Promise.resolve();
                   }
                 }
               ]}
@@ -360,19 +360,19 @@ const LoginForm = (props: LoginFormProps) => {
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                   <Checkbox className='text-gray-500'
                     onChange={({
-                      target: { checked }
+                      target: {checked}
                     }) => {
-                      const emailPhone = getFieldValue('emailPhone')
+                      const emailPhone = getFieldValue('emailPhone');
                       if (checked) {
                         localStorage.setItem('rememberAccount', JSON.stringify({
                           isUseEmail,
                           account: emailPhone,
                           remember: checked
-                        }))
+                        }));
                       } else {
                         localStorage.setItem('rememberAccount', JSON.stringify({
                           isUseEmail
-                        }))
+                        }));
                       }
                     }}
                   >{t('Pages.login.loginForm_remember')}</Checkbox>
@@ -381,7 +381,7 @@ const LoginForm = (props: LoginFormProps) => {
                 <span
 
                   onClick={() => {
-                    pushRoute(routePaths.resetPassword)
+                    pushRoute(routePaths.resetPassword);
                   }}
 
                   className='theme-color span-cursor'>{t('Pages.login.loginForm_forgot')}</span>
@@ -389,7 +389,7 @@ const LoginForm = (props: LoginFormProps) => {
               </Flex>
             </Form.Item>
 
-            <Form.Item label={null} labelCol={{ span: 0 }} >
+            <Form.Item label={null} labelCol={{span: 0}} >
               <Button
                 loading={loading}
                 type="primary" htmlType="submit" block className='mb-1'>
@@ -401,7 +401,7 @@ const LoginForm = (props: LoginFormProps) => {
                 {/* <Link href="/register" > */}
                 <span
                   onClick={() => {
-                    pushRoute(routePaths.register)
+                    pushRoute(routePaths.register);
                   }} className='ml-2 theme-color span-cursor' style={{
                     marginLeft: '8px',
                   }}>{t('Pages.login.loginForm_signup')}</span>
@@ -415,8 +415,8 @@ const LoginForm = (props: LoginFormProps) => {
 
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default addRouterApi(LoginForm)
+export default addRouterApi(LoginForm);
 

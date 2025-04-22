@@ -1,32 +1,32 @@
-import "./index.scss"
-import TopTitle from "@/components/TopTitle"
-import DetailsForm from "src/components/DetailsForm"
-import PersonalInfoModal from "./PersonalInfoModal"
+import "./index.scss";
+import TopTitle from "@/components/TopTitle";
+import DetailsForm from "src/components/DetailsForm";
+import PersonalInfoModal from "./PersonalInfoModal";
 
-import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle"
-import { memo, FC, useState, useEffect } from "react"
+import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle";
+import {memo, FC, useState, useEffect} from "react";
 import TopTag from "src/components/TopTag";
-import { useTranslation } from 'react-i18next'
+import {useTranslation} from 'react-i18next';
 
-import { Button, Form, message } from 'antd';
+import {Button, Form, message} from 'antd';
 
-import { DetailsFormProps, FormItemProps, SlotComponentProps } from '@/types/detailsForm'
-import { postFileUpload, getRegionCode, realNameAuthentication } from "src/apis/page/personalInfoWrite"
+import {DetailsFormProps, FormItemProps, SlotComponentProps} from '@/types/detailsForm';
+import {postFileUpload, getRegionCode, realNameAuthentication} from "src/apis/page/personalInfoWrite";
 
-import type { GetProp, UploadFile, UploadProps } from 'antd';
+import type {GetProp, UploadFile, UploadProps} from 'antd';
 
-import { mapRedux } from '@/redux';
-import CheckEmailAndMobile from "./CheckEmailAndMobile"
-import id_card_obverse from 'static/images/id_card_obverse.png'
-import id_card_reverse from 'static/images/id_card_reverse.png'
+import {mapRedux} from '@/redux';
+import CheckEmailAndMobile from "./CheckEmailAndMobile";
+import id_card_obverse from 'static/images/id_card_obverse.png';
+import id_card_reverse from 'static/images/id_card_reverse.png';
 
 // 权限控制
 const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
 
-  const { t } = useTranslation()
-  const [messageApi, contextHolder] = message.useMessage()
+  const {t} = useTranslation();
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const { userInfo } = props.state.user
+  const {userInfo} = props.state.user;
   //是否已经验证邮箱和手机
   console.log(props, userInfo.isEmailVerified, userInfo.isMobileVerified, userInfo.isRealNameAuth, 'PersonalInfoWrite');  
   // action的类型 create view edit review
@@ -35,16 +35,16 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
   // const disabled = action === 'view'
   // 控制表单禁用
   const [formDisabled, setFormDisabled] = useState(false);
-  const [formReadOnly, setFormReadOnly] = useState(false)
+  const [formReadOnly, setFormReadOnly] = useState(false);
   // const [formReadOnly, setFormReadOnly] = useState(userInfo.isRealNameAuth)
   // 所在地 区域代码
   // const [regionCodeOptions, setRegionCodeOptions] = useState([])
   // 居民所在地
-  const [placeOfResidence, setPlaceOfResidence] = useState([])
+  const [placeOfResidence, setPlaceOfResidence] = useState([]);
 
   useEffect(() => {
     getRegionCode().then(res => {
-      console.log(res, 'resresresres')
+      console.log(res, 'resresresres');
       if (res.data && res.data.length > 0) {
         //所在地 区域代码
         // const handleData = res.data.map((item: { alpha2Code: string; callingCodes: string; nativeName: string; commonName: string; }) =>
@@ -52,33 +52,33 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
         // setRegionCodeOptions([...handleData])
         //居民所在地
         const handleData2 = res.data.map((item: { alpha2Code: string; callingCodes: string; nativeName: string; commonName: string; }) =>
-          ({ ...item, label: item.nativeName, value: item.callingCodes + ' ' + item.nativeName }))
-        setPlaceOfResidence([...handleData2])
+          ({...item, label: item.nativeName, value: item.callingCodes + ' ' + item.nativeName}));
+        setPlaceOfResidence([...handleData2]);
       }
-    })
+    });
 
 
-  }, [])
+  }, []);
   
 
   const [fileListData, setFileListData] = useState<UploadFile[][]>([
     [], []
-  ])
+  ]);
 
-  const [filePaths, setFilePaths] = useState([{}, {}])
+  const [filePaths, setFilePaths] = useState([{}, {}]);
 
-  const handleCustomRequest = async ({ file, onSuccess, onError, onProgress }, index) => {
+  const handleCustomRequest = async ({file, onSuccess, onError, onProgress}, index) => {
     const formData = new FormData();
     formData.append('file', file); // Add file to FormData
     formData.append('fileType', 'frontOfIDCard');
     try {
       const uploadRes = await postFileUpload(formData);
       const responseData = uploadRes.data;
-      let data = filePaths 
-      data[index] = uploadRes.data
+      const data = filePaths; 
+      data[index] = uploadRes.data;
       console.log(data, 'datadatadatadatadata');
       
-      setFilePaths([...data])
+      setFilePaths([...data]);
 
       onSuccess(responseData);
       // message.success('文件上传成功！');
@@ -88,14 +88,14 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
     }
   };
 
-  const handleChange = ({ fileList: newFileList }, index: number) => {
+  const handleChange = ({fileList: newFileList}, index: number) => {
     console.log(newFileList, 'newFileListnewFileListnewFileList');
     // setFileList(newFileList)
-    let data = fileListData
-    data[index] = newFileList
-    setFileListData([...data])
+    const data = fileListData;
+    data[index] = newFileList;
+    setFileListData([...data]);
 
-  }
+  };
   //预览功能
   // const [previewOpen, setPreviewOpen] = useState(false);
   //   const [previewImage, setPreviewImage] = useState('');
@@ -116,19 +116,19 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
   //   };
   
 
-  const [checkType, setCheckType] = useState('email')
+  const [checkType, setCheckType] = useState('email');
 
-  const [isOpenCheck, setIsOpenCheck] = useState(false)
+  const [isOpenCheck, setIsOpenCheck] = useState(false);
   const checkMobileClick = (type: string) => {
-    console.log('checkMobileClick')
-    setCheckType(type)
-    setIsOpenCheck(!isOpenCheck)
-  }
+    console.log('checkMobileClick');
+    setCheckType(type);
+    setIsOpenCheck(!isOpenCheck);
+  };
   //更新 绑定的 手机号 邮箱
   const bindEmailOrPhone = (type: string, datas: { emailPhone: { email?: string; mobile?: string; }, code: string }) => {
     console.log(datas, 'bindEmailOrPhone');
-    form.setFieldValue(type, datas)
-  }
+    form.setFieldValue(type, datas);
+  };
 
   //DetailsForm的控制渲染数据
   const formItemPropData: [FormItemProps | FormItemProps[], SlotComponentProps][] = [
@@ -168,8 +168,8 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
         props: {
           placeholder: t("Pages.PersonalInfoWrite.PleaseSelect"), //请选择
           options: [
-            { label: t("Pages.PersonalInfoWrite.IdCard"), value: 'ID' },  //身份证
-            { label: t("Pages.PersonalInfoWrite.Passport"), value: 'Passport' }, //护照
+            {label: t("Pages.PersonalInfoWrite.IdCard"), value: 'ID'},  //身份证
+            {label: t("Pages.PersonalInfoWrite.Passport"), value: 'Passport'}, //护照
           ],
         },
       },
@@ -220,9 +220,9 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
         name: 'documentNumber',
         label: t("Pages.PersonalInfoWrite.IdNumber"), // 证件号码
         rules: [
-          { required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter") },
+          {required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter")},
           //input的校验规则
-          { pattern: /^\d+$/, message: t("Pages.PersonalInfoWrite.OnlyNumbersCanBeEntered") }
+          {pattern: /^\d+$/, message: t("Pages.PersonalInfoWrite.OnlyNumbersCanBeEntered")}
         ],
       },
       {
@@ -238,14 +238,14 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
           name: 'familyName',
           label: t("Pages.PersonalInfoWrite.ChineseSurname"),// 中文姓
           rules: [
-            { required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter") },
+            {required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter")},
           ],
         },
         {
           name: 'givenName',
           label: t("Pages.PersonalInfoWrite.ChineseName"),// 中文名
           rules: [
-            { required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter") },
+            {required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter")},
           ],
         }
       ],
@@ -271,14 +271,14 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
           name: 'lastName',
           label: t("Pages.PersonalInfoWrite.EnglishSurname"), // 英文姓
           rules: [
-            { required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter") },
+            {required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter")},
           ],
         },
         {
           name: 'firstName',
           label: t("Pages.PersonalInfoWrite.EnglishName"), // 英文名
           rules: [
-            { required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter") },
+            {required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter")},
           ],
         }
       ],
@@ -322,7 +322,7 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
         name: 'mobile',
         label: t("Pages.PersonalInfoWrite.PhoneNumber"), //手机号码
         rules: [
-          { required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter") },
+          {required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter")},
         ],
       },
       {
@@ -380,7 +380,7 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
         name: 'dateOfBirth',
         label: t("Pages.PersonalInfoWrite.DateOfBirth"), //出生日期
         rules: [
-          { required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter") },
+          {required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter")},
         ],
       },
       {
@@ -396,7 +396,7 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
         name: 'residentialAddress',
         label: t("Pages.PersonalInfoWrite.Address"), // 住址
         rules: [
-          { required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter") },
+          {required: true, message: t("Pages.PersonalInfoWrite.PleaseEnter")},
         ],
       },
       {
@@ -436,47 +436,47 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
     number: {
       range: '${label} must be between ${min} and ${max}',
     },
-  }
+  };
   // 填写的个人信息表单数据
-  const [formInfoData, setformInfoData] = useState({})
+  const [formInfoData, setformInfoData] = useState({});
   // 弹窗状态
   const [isOpen, setIsOpen] = useState(false);
   // 提交成功后的回调
   const onFinish = (values: any) => {
     
 
-    const dateOfBirth = values.dateOfBirth.format('YYYY-MM-DD')
-    const callingCodes = values.callingCodes.split(' ')[0]
-    const placeOfResidence = values.placeOfResidence.split(' ').slice(1).join(' ')
-    const params = { ...values, dateOfBirth, filePaths, placeOfResidence, callingCodes }
-    setformInfoData(params)
-    setIsOpen(true)
-  }
+    const dateOfBirth = values.dateOfBirth.format('YYYY-MM-DD');
+    const callingCodes = values.callingCodes.split(' ')[0];
+    const placeOfResidence = values.placeOfResidence.split(' ').slice(1).join(' ');
+    const params = {...values, dateOfBirth, filePaths, placeOfResidence, callingCodes};
+    setformInfoData(params);
+    setIsOpen(true);
+  };
 
   const submitModelForm = () => {
-    const values = form.getFieldsValue()
-    const dateOfBirth = values.dateOfBirth.format('YYYY-MM-DD')
-    const callingCodes = values.callingCodes.split(' ')[0]
-    const placeOfResidence = values.placeOfResidence.split(' ').slice(1).join(' ')
-    const params = { ...values, dateOfBirth, filePaths, placeOfResidence, callingCodes }
+    const values = form.getFieldsValue();
+    const dateOfBirth = values.dateOfBirth.format('YYYY-MM-DD');
+    const callingCodes = values.callingCodes.split(' ')[0];
+    const placeOfResidence = values.placeOfResidence.split(' ').slice(1).join(' ');
+    const params = {...values, dateOfBirth, filePaths, placeOfResidence, callingCodes};
 
     console.log(params, 'onFinishonFinishonFinish');
 
     realNameAuthentication(params).then(res => {
       if (res.data) {
-        form.resetFields()
-        messageApi.open({ type: 'success', content: t("Pages.PersonalInfoWrite.SubmissionSuccessful") })
+        form.resetFields();
+        messageApi.open({type: 'success', content: t("Pages.PersonalInfoWrite.SubmissionSuccessful")});
       }
     }).catch(err => {
-      messageApi.open({ type: 'error', content: 'err' })
-    })
+      messageApi.open({type: 'error', content: 'err'});
+    });
 
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
   // const formSubmit = async (values: any) => {}
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   const initialValues = {
     placeOfResidence: '',
@@ -492,7 +492,7 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
     dateOfBirth: '',
     residentialAddress: '',
     Button: ''
-  }
+  };
 
   const formProps = {
     name: 'personalInfoFo',
@@ -500,12 +500,12 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
     onFinish,
     validateMessages,
     form, // 确保传递 form 实例
-    labelCol: { span: 12 },
-    wrapperCol: { span: 24 },
-    style: { maxWidth: 482 },
+    labelCol: {span: 12},
+    wrapperCol: {span: 24},
+    style: {maxWidth: 482},
     layout: 'vertical', //layout="vertical | horizonta | linline"
     initialValues
-  }
+  };
   
 
   return (
@@ -550,8 +550,8 @@ const PersonalInfoWrite: FC<DetailsFormProps> = (props) => {
 
       </div>
     </>
-  )
-}
+  );
+};
 
 export default mapRedux()(setBreadcrumbAndTitle({
   // 设置面包屑和标题
@@ -561,4 +561,4 @@ export default mapRedux()(setBreadcrumbAndTitle({
     }
   ],
   title: "个人资料"
-})(memo(PersonalInfoWrite)))
+})(memo(PersonalInfoWrite)));

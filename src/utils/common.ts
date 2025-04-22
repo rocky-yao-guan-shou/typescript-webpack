@@ -1,7 +1,7 @@
 
-export const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i
-export const codeReg = /^[a-zA-Z0-9]+$/ig
-export const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]{8,16}$/ig
+export const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+export const codeReg = /^[a-zA-Z0-9]+$/ig;
+export const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]{8,16}$/ig;
 
 
 
@@ -12,8 +12,8 @@ export const getSearchParams = (paramName: string) => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     const paramValue = params.get(paramName); // 获取参数值
-    return paramValue
-}
+    return paramValue;
+};
 
 
 
@@ -50,11 +50,11 @@ export const codeToChinese = (string: string) => {
                 parseInt(
                     code,
                     16)
-            )
+            );
         }
     ).join('');
 
-}
+};
 
 
 

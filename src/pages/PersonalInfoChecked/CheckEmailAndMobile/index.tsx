@@ -1,12 +1,12 @@
 import "./index.scss";
-import { Button, Input, Modal, Space } from 'antd';
-import type { FormProps } from 'antd';
-import { FC, useState, useEffect } from "react";
-import { useTranslation } from 'react-i18next';
+import {Button, Input, Modal, Space} from 'antd';
+import type {FormProps} from 'antd';
+import {FC, useState, useEffect} from "react";
+import {useTranslation} from 'react-i18next';
 import FormComp from './Form';
-import { Form } from 'antd';
+import {Form} from 'antd';
 
-import { updateAccountAuthInfo } from "src/apis/page/personalInfoWrite"
+import {updateAccountAuthInfo} from "src/apis/page/personalInfoWrite";
 import Token from "src/apis/request/token";
 
 
@@ -48,7 +48,7 @@ const CheckEmailAndMobile: FC<CheckEmailAndMobileProps> = ({
   type = 'mobile',
   onSubmit = () => {}
 }) => {
-  const { t } = useTranslation()
+  const {t} = useTranslation();
 
   const switchOpen = () => setIsOpen(!isOpen);
 
@@ -56,19 +56,19 @@ const CheckEmailAndMobile: FC<CheckEmailAndMobileProps> = ({
 
   const onOk = () => {
     //请求更新
-    const values = form.getFieldsValue()
-    const datas = { ...values, ...values.emailPhone }
+    const values = form.getFieldsValue();
+    const datas = {...values, ...values.emailPhone};
     //更新账号信息
     updateAccountAuthInfo(datas).then(res => {
       //传入新的token
-      res.data && Token.set(res.data)
+      res.data && Token.set(res.data);
       //传给父组件
-      onSubmit(type, datas)
-      switchOpen()
+      onSubmit(type, datas);
+      switchOpen();
     }).catch(err => {
-      console.log(err)
-    })
-  }
+      console.log(err);
+    });
+  };
 
   return (
     <>
@@ -84,8 +84,8 @@ const CheckEmailAndMobile: FC<CheckEmailAndMobileProps> = ({
         <FormComp type={type} form={form} />
       </Modal>
     </>
-  )
-}
+  );
+};
 
 
-export default CheckEmailAndMobile
+export default CheckEmailAndMobile;

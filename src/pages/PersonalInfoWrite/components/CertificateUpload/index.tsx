@@ -1,13 +1,13 @@
 // CounterComponent.js
-import React, { Children, cloneElement } from 'react';
+import React, {Children, cloneElement} from 'react';
 import Viewer from 'react-viewer';
 import Upload from 'src/components/Upload/ui/index.tsx';
-import { InboxOutlined, CameraOutlined } from '@ant-design/icons';
+import {InboxOutlined, CameraOutlined} from '@ant-design/icons';
 import idCardFront from '@/assets/images/idCardFront.png';
 import idCardBack from '@/assets/images/idCardBack.png';
 import passportFront from '@/assets/images/passportFront.png';
 import passportBack from '@/assets/images/passportBack.png';
-import { uploadImg } from '@/apis';
+import {uploadImg} from '@/apis';
 
 
 /*
@@ -26,10 +26,10 @@ export default (props) => {
 
 
 
-    console.log('props===',props)
+    console.log('props===',props);
 
 
-    let map = {
+    const map = {
         ID: {
             frontUploadImg: idCardFront,
             frontText: '点击上传身份证正面图片',
@@ -47,12 +47,12 @@ export default (props) => {
             frontType: 'passportCover',
             behindType: 'passportInformation',
         }
-    }
+    };
 
 
 
 
-    const { frontImg, behindImg } = value
+    const {frontImg, behindImg} = value;
 
     return <div style={{
         display: 'flex',
@@ -77,7 +77,7 @@ export default (props) => {
                 onChange({
                     behindImg,
                     frontImg: v[0]
-                })
+                });
             }}
         >
             <div className="ant-upload-drag-icon">
@@ -123,7 +123,7 @@ export default (props) => {
                 onChange({
                     frontImg,
                     behindImg: v[0]
-                })
+                });
             }}
         >
             <div className="ant-upload-drag-icon">
@@ -148,7 +148,7 @@ export default (props) => {
             </div>
         </Upload>
 
-    </div>
+    </div>;
 
 
 };

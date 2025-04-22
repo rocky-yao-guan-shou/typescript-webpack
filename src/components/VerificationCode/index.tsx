@@ -1,12 +1,12 @@
 
-import { useEffect, useState } from 'react';
-import { withTranslation, WithTranslation, useTranslation } from 'react-i18next';
-import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input, Flex, Select, Row, Col, Mentions, Modal, Spin, message } from 'antd';
+import {useEffect, useState} from 'react';
+import {withTranslation, WithTranslation, useTranslation} from 'react-i18next';
+import type {FormProps} from 'antd';
+import {Button, Checkbox, Form, Input, Flex, Select, Row, Col, Mentions, Modal, Spin, message} from 'antd';
 import Viewer from 'react-viewer';
 import *  as   apis from "@/apis";
 import Token from "@/apis/request/token";
-import { codeReg } from "@/utils";
+import {codeReg} from "@/utils";
 import "./index.scss";
 
 
@@ -37,12 +37,12 @@ interface InputCodeProps {
 }
 
 export const InputCode: React.FC<InputCodeProps> = (props: InputCodeProps) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation();
     const {
         onChange,
         value,
         type = 'getGenRegCaptcha'
-    } = props
+    } = props;
     const [imgSrc, setImgSrc] = useState<string | null>('');
     const [loading, setLoading] = useState<boolean>(true);
     const [previewImage, setPreviewImage] = React.useState<{
@@ -53,10 +53,10 @@ export const InputCode: React.FC<InputCodeProps> = (props: InputCodeProps) => {
         urls: [],
     });
 
-    const onMaskClick = () => setPreviewImage({ ...previewImage, visible: false })
+    const onMaskClick = () => setPreviewImage({...previewImage, visible: false});
 
     const init = async () => {  // 初始化   
-        setLoading(true)
+        setLoading(true);
 
 
 
@@ -68,18 +68,18 @@ export const InputCode: React.FC<InputCodeProps> = (props: InputCodeProps) => {
                 token
             } = response.data;
             //  将SVG字符串转换为Buffer对象，然后转换为Base64编码
-            setImgSrc(`data:image/svg+xml;base64,${btoa(svg)}`)
-            Token.set(token)
-            setLoading(false)
+            setImgSrc(`data:image/svg+xml;base64,${btoa(svg)}`);
+            Token.set(token);
+            setLoading(false);
         }).catch((error) => {
-            console.log('error==', error)
-            setLoading(false)
-        })
-    }
+            console.log('error==', error);
+            setLoading(false);
+        });
+    };
 
     useEffect(() => {
-        init()
-    }, [])
+        init();
+    }, []);
 
 
     return (
@@ -88,7 +88,7 @@ export const InputCode: React.FC<InputCodeProps> = (props: InputCodeProps) => {
 
             <Viewer
                 zIndex={9999}
-                defaultSize={{ width: 81 * 5, height: 38 * 5, }}
+                defaultSize={{width: 81 * 5, height: 38 * 5,}}
                 visible={previewImage.visible}
                 onMaskClick={onMaskClick}
                 onClose={() => {
@@ -129,7 +129,7 @@ export const InputCode: React.FC<InputCodeProps> = (props: InputCodeProps) => {
                                 onClick={() => {
                                     setPreviewImage({
                                         visible: true,
-                                        urls: [{ src: imgSrc, alt: '验证码' }],
+                                        urls: [{src: imgSrc, alt: '验证码'}],
                                     });
                                 }}
                                 aria-label="图标: eye-o"
@@ -161,22 +161,22 @@ export const InputCode: React.FC<InputCodeProps> = (props: InputCodeProps) => {
                 </Spin>
             </div>
         </div>
-    )
-}
+    );
+};
 
 
 
 const VerifyCode: React.FC<PropsType> = (props: PropsType) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation();
     const [imgSrc, setImgSrc] = useState<string | null>('');
-    const { onSubmit = () => { }, type = 'getGenRegCaptcha' } = props
+    const {onSubmit = () => { }, type = 'getGenRegCaptcha'} = props;
     const [loading, setLoading] = useState(false);
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        setLoading(true)
+        setLoading(true);
         await onSubmit(values).catch((error: any) => {
-            setLoading(false)
-        })
-        setLoading(false)
+            setLoading(false);
+        });
+        setLoading(false);
     };
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -204,9 +204,9 @@ const VerifyCode: React.FC<PropsType> = (props: PropsType) => {
 
         <Form
             name="basic"
-            labelCol={{ span: 10 }}
-            wrapperCol={{ span: 18 }}
-            style={{ maxWidth: 600 }}
+            labelCol={{span: 10}}
+            wrapperCol={{span: 18}}
+            style={{maxWidth: 600}}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -238,14 +238,14 @@ const VerifyCode: React.FC<PropsType> = (props: PropsType) => {
                         required: true,
                         validator: (rule, value = '',) => {
                             if (!value.trim()) {
-                                return Promise.reject(t('Components.VerificationCode.captcha.verify1'))
+                                return Promise.reject(t('Components.VerificationCode.captcha.verify1'));
 
                             }
 
                             if (!value.match(codeReg)) {
-                                return Promise.reject(t('Components.VerificationCode.captcha.verify2'))
+                                return Promise.reject(t('Components.VerificationCode.captcha.verify2'));
                             }
-                            return Promise.resolve()
+                            return Promise.resolve();
                         }
                     }
                 ]}
@@ -254,15 +254,15 @@ const VerifyCode: React.FC<PropsType> = (props: PropsType) => {
             </Form.Item>
             <Button
                 loading={loading}
-                style={{ margin: '0 auto', display: 'block' }}
+                style={{margin: '0 auto', display: 'block'}}
                 className='verification-code-mx-auto block'
                 type="primary" htmlType="submit">
                 {t('Common.confirm')}
             </Button>
         </Form>
 
-    )
-}
+    );
+};
 
 
 
@@ -271,9 +271,9 @@ const VerifyCode: React.FC<PropsType> = (props: PropsType) => {
 
 //
 
-export default ({ type, value, onChange = () => { }, isAcceptCode, onSubmit = () => { } }: { type: string; value: string; onChange: Function; isAcceptCode: boolean; onSubmit: Function }) => {
+export default ({type, value, onChange = () => { }, isAcceptCode, onSubmit = () => { }}: { type: string; value: string; onChange: Function; isAcceptCode: boolean; onSubmit: Function }) => {
     // 前面的key
-    const { t } = useTranslation()
+    const {t} = useTranslation();
 
     // 存储倒计时状态
     const [countdown, setCountdown] = useState(0);
@@ -307,10 +307,10 @@ export default ({ type, value, onChange = () => { }, isAcceptCode, onSubmit = ()
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleOk = () => { }
+    const handleOk = () => { };
     const handleCancel = () => {
-        setIsModalOpen(false)
-    }
+        setIsModalOpen(false);
+    };
 
     return (
         <div className='verification-code'>
@@ -320,16 +320,16 @@ export default ({ type, value, onChange = () => { }, isAcceptCode, onSubmit = ()
                 <VerifyCode
                     type={type}
                     onSubmit={async (values: any) => {
-                        setLoading(true)
+                        setLoading(true);
                         // 验证码
-                        await onSubmit(values)
+                        await onSubmit(values);
 
 
 
-                        message.success(t('Common.sendSuccess'))
-                        sendVerifyCode()
+                        message.success(t('Common.sendSuccess'));
+                        sendVerifyCode();
                         // 发送验证码
-                        setIsModalOpen(false)
+                        setIsModalOpen(false);
                     }} />
             </Modal>
 
@@ -340,8 +340,8 @@ export default ({ type, value, onChange = () => { }, isAcceptCode, onSubmit = ()
                         onChange={(event) => {
                             const {
                                 value
-                            } = event.target
-                            onChange(value)
+                            } = event.target;
+                            onChange(value);
                         }} />
                 </Col>
                 <Col span={8}>
@@ -349,15 +349,15 @@ export default ({ type, value, onChange = () => { }, isAcceptCode, onSubmit = ()
 
                         disabled={countdown > 0 || !isAcceptCode} onClick={() => {
 
-                            setIsModalOpen(true)
+                            setIsModalOpen(true);
                         }}>
                         {countdown > 0 ? `${countdown}(s)` : t('Pages.login.registerForm_receiveCode')}
                     </Button>
                 </Col>
             </Row>
         </div>
-    )
-}
+    );
+};
 
 
 

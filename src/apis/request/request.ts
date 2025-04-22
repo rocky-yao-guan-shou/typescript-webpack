@@ -1,12 +1,12 @@
 import axios from 'axios';
 import Token from './token';
-import { baseURL } from './baseURL';
-import { redirects } from './redirect';
-import { localStorage } from 'src/storage';
-import { i18n } from '@/utils';
+import {baseURL} from './baseURL';
+import {redirects} from './redirect';
+import {localStorage} from 'src/storage';
+import {i18n} from '@/utils';
  
 //多语言
-const t = (key: string) => i18n.t(key)
+const t = (key: string) => i18n.t(key);
 
 
 import type {
@@ -15,7 +15,7 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { error } from './globalMessage';
+import {error} from './globalMessage';
 
 // 定义一个常见后端请求返回
 export type BoStdReply<T> = {
@@ -174,7 +174,7 @@ export const transform: InterceptorHooks = {
     // console.log('NEXT_LOCALE==', await getCookie('NEXT_LOCALE'))
     // 请求头携带token
     config.headers.set('Authorization', token ? `Bearer ${token}` : '');
-    config.headers.set('Language', localStorage.getItem('language'))
+    config.headers.set('Language', localStorage.getItem('language'));
 
     return config;
   },
@@ -183,8 +183,8 @@ export const transform: InterceptorHooks = {
   async responseInterceptor(result) {
     const res = result as ExpandAxiosResponse;
     // axios 返回值
-    const { data, status, config } = res;
-    const { requestOptions: { globalErrorMessage } = {}, url } = config;
+    const {data, status, config} = res;
+    const {requestOptions: {globalErrorMessage} = {}, url} = config;
     const {
       error: errorMsg,
       resultObj,
@@ -234,7 +234,7 @@ export const transform: InterceptorHooks = {
 
   // 响应 http code 错误
   responseInterceptorHttpCatch(err) {
-    const { config } = err;
+    const {config} = err;
 
     // 这里用来处理 http 常见错误，进行全局提示
     const mapErrorStatus = new Map([
@@ -258,9 +258,9 @@ export const transform: InterceptorHooks = {
   responseInterceptorCatch(result) {
     const res = result as ExpandAxiosResponse;
     // axios 返回值
-    const { data, status, config } = res;
+    const {data, status, config} = res;
     const {
-      requestOptions: { globalErrorMessage, globalErrorRedirect } = {},
+      requestOptions: {globalErrorMessage, globalErrorRedirect} = {},
       url,
     } = config;
     const {

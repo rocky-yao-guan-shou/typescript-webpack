@@ -1,7 +1,7 @@
 import './index.scss';
-import { FC, JSX } from 'react';
-import { Button, Modal } from 'antd';
-import { useTranslation } from 'react-i18next';
+import {FC, JSX} from 'react';
+import {Button, Modal} from 'antd';
+import {useTranslation} from 'react-i18next';
 
 interface TopTagProps {
     isOpen: boolean
@@ -23,14 +23,14 @@ const ModalConfirm: FC<TopTagProps> = ({
     handleCancel = () => {},
     ...props
 }) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation();
 
     const { 
         title = t('Components.ModalConfirm.Hint'),
         content = '',
         leftBtnSpan = t('Components.ModalConfirm.Confirm'),
         rightBtnSpan = t('Components.ModalConfirm.Cancel')
-    } = props
+    } = props;
 
     return (
         <div className='modal-confirm-box'>
@@ -48,7 +48,7 @@ const ModalConfirm: FC<TopTagProps> = ({
                 {content}
             </Modal>
         </div>
-    )
+    );
 };
 
-export default ModalConfirm
+export default ModalConfirm;

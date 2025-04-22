@@ -1,6 +1,6 @@
 import './index.scss';
 
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import {DownOutlined, UpOutlined} from '@ant-design/icons';
 import {
     Button,
     Checkbox,
@@ -18,16 +18,16 @@ import {
     TreeSelect
 } from 'antd';
 
-import type { SelectProps, InputProps } from 'antd';
+import type {SelectProps, InputProps} from 'antd';
 
-import React, { PureComponent, useEffect } from 'react';
+import React, {PureComponent, useEffect} from 'react';
 
 
 
 export default (props: {
     options?: any[],
     value?: any,
-    onChange?: (v: Object) => void,
+    onChange?: (v: object) => void,
     selectProps?: SelectProps,
     inputProps?: InputProps,
 }) => {
@@ -37,17 +37,17 @@ export default (props: {
         onChange,
         selectProps = {},
         inputProps = {},
-    } = props
+    } = props;
 
     const sharedProps: SelectProps = {
         mode: 'multiple',
-        style: { width: '100%' },
+        style: {width: '100%'},
         options,
         // maxTagCount: 'responsive',
     };
 
 
-    const { selectValue = ['all'], inputValue } = value
+    const {selectValue = ['all'], inputValue} = value;
 
 
 
@@ -63,18 +63,18 @@ export default (props: {
                     const {
                         label,
                         value
-                    } = item
+                    } = item;
                     return {
                         title: label,
                         value: value,
                         key: value,
-                    }
+                    };
                 }),
             ],
         },
     ];
 
-    const { SHOW_PARENT } = TreeSelect;
+    const {SHOW_PARENT} = TreeSelect;
 
     const tProps = {
         treeData,
@@ -96,10 +96,10 @@ export default (props: {
         onChange({
             selectValue: options.map(item => item.value),
             inputValue,
-        })
+        });
 
 
-    }, [])
+    }, []);
 
 
     return <div className='multiple-select-input'>
@@ -119,9 +119,9 @@ export default (props: {
             }}
             value={(() => {
                 if (selectValue.length === options.length) {
-                    return ['all']
+                    return ['all'];
                 } else {
-                    return selectValue
+                    return selectValue;
                 }
             })()}
             onChange={(v) => {
@@ -129,12 +129,12 @@ export default (props: {
                     onChange && onChange({
                         selectValue: options.map(item => item.value),
                         inputValue,
-                    })
+                    });
                 } else {
                     onChange && onChange({
                         selectValue: v,
                         inputValue,
-                    })
+                    });
                 }
 
 
@@ -155,12 +155,12 @@ export default (props: {
 
 
 
-                let $selectValue = selectValue.includes('all') ? options.map(item => item.value) : selectValue
+                const $selectValue = selectValue.includes('all') ? options.map(item => item.value) : selectValue;
                 onChange && onChange({
                     selectValue: $selectValue,
                     inputValue: v
-                })
+                });
             }}
         />
-    </div>
-}
+    </div>;
+};

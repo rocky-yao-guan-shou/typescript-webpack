@@ -1,12 +1,12 @@
 import "./index.scss";
-import { FC, useState } from "react"
-import DetailsForm from "src/components/DetailsForm"
-import { useTranslation } from 'react-i18next';
-import { FormItemProps, SlotComponentProps } from '@/types/detailsForm'
-import { Form, message, Segmented } from 'antd';
-import { createMT5Account } from "src/apis/page/account";
+import {FC, useState} from "react";
+import DetailsForm from "src/components/DetailsForm";
+import {useTranslation} from 'react-i18next';
+import {FormItemProps, SlotComponentProps} from '@/types/detailsForm';
+import {Form, message, Segmented} from 'antd';
+import {createMT5Account} from "src/apis/page/account";
 
-import TopTitle from "@/components/TopTitle"
+import TopTitle from "@/components/TopTitle";
 
 interface CreateAccount {
     switchIsCreateAcc: () => void
@@ -27,27 +27,27 @@ const CreateAccount: FC<CreateAccount> = ({
     handleAddAcc = () => {}
 }) => {
 
-    const { t } = useTranslation()
-    const [messageApi, contextHolder] = message.useMessage()
-    const [loading, setLoading] = useState(false)
+    const {t} = useTranslation();
+    const [messageApi, contextHolder] = message.useMessage();
+    const [loading, setLoading] = useState(false);
     // 0模拟demo 1真实standard 2pro
-    const groupArr = ['Demo', 'Standard', 'Pro']
-    const [group, setGroup] = useState('1') // 0 模拟账户 1真实账户
+    const groupArr = ['Demo', 'Standard', 'Pro'];
+    const [group, setGroup] = useState('1'); // 0 模拟账户 1真实账户
     const segmentedPorps = {
         disabled: loading,
-        style: { maxWidth: '482px', border: '1px solid #D5D8DC', background: '#F5F7FA' },
+        style: {maxWidth: '482px', border: '1px solid #D5D8DC', background: '#F5F7FA'},
         block: true,
         options: [
-            { label: t("Pages.Account.RealAccount"), value: '1' }, //真实账户
-            { label: t("Pages.Account.DemoAccount"), value: '0' }, //模拟账户
+            {label: t("Pages.Account.RealAccount"), value: '1'}, //真实账户
+            {label: t("Pages.Account.DemoAccount"), value: '0'}, //模拟账户
         ],
         value: group,
         onChange: (value: string) => setGroup(value)
-    }
+    };
 
     const passwordValidator = (rule: any, value: string) => {
         if (!value) {
-            return rule.field === "investorPassword" ? Promise.resolve() : Promise.reject(new Error(t("Validators.PleaseEnterPassword")))
+            return rule.field === "investorPassword" ? Promise.resolve() : Promise.reject(new Error(t("Validators.PleaseEnterPassword")));
         }
         if (!/[A-Z]/.test(value)) {
             return Promise.reject(new Error(t("Validators.NeedUppercaseMsg")));
@@ -67,29 +67,29 @@ const CreateAccount: FC<CreateAccount> = ({
         return Promise.resolve();
     };
 
-    const [form] = Form.useForm()
+    const [form] = Form.useForm();
 
     const submitForm = async (values: any) => {
         try {
-            const params = { ...values, group: groupArr[Number(group)] }
-            setLoading(true)
-            const res = await createMT5Account(params)
+            const params = {...values, group: groupArr[Number(group)]};
+            setLoading(true);
+            const res = await createMT5Account(params);
             if (res.code === 200) {
-                form.resetFields()
-                messageApi.open({ type: 'success', content: t("Pages.Account.CreateTradingAccountSuccess") })//开设成功
-                switchIsCreateAcc()
-                handleAddAcc()
+                form.resetFields();
+                messageApi.open({type: 'success', content: t("Pages.Account.CreateTradingAccountSuccess")});//开设成功
+                switchIsCreateAcc();
+                handleAddAcc();
             }
-            setLoading(false)
+            setLoading(false);
         }
         catch {}
-        finally { setLoading(false) }
-    }
+        finally { setLoading(false); }
+    };
 
     // 提交成功后的回调
     const onFinish = (values: any) => {
         console.log(values, 'onFinishonFinishonFinish');
-        submitForm(values)
+        submitForm(values);
     };
 
 
@@ -100,18 +100,18 @@ const CreateAccount: FC<CreateAccount> = ({
         initialCapital: null,
         masterPassword: '',
         investorPassword: ''
-    })
+    });
     const formProps = {
         name: 'formName',
         disabled: false,
         onFinish,
         form, // 确保传递 form 实例
-        labelCol: { span: 12 },
-        wrapperCol: { span: 24 },
-        style: { maxWidth: 482 },
+        labelCol: {span: 12},
+        wrapperCol: {span: 24},
+        style: {maxWidth: 482},
         layout: 'vertical', //layout="vertical | horizonta | linline"
         initialValues
-    }
+    };
 
     //DetailsForm的控制渲染数据
     const formItemPropData: [FormItemProps | FormItemProps[], SlotComponentProps][] = [
@@ -135,7 +135,7 @@ const CreateAccount: FC<CreateAccount> = ({
                 name: 'accountType',
                 label: t("Pages.Account.AccountType"), // 账户类型
                 rules: [
-                    { required: true, message: t("Pages.Account.PleaseSelect") },
+                    {required: true, message: t("Pages.Account.PleaseSelect")},
                 ],
             },
             {
@@ -144,8 +144,8 @@ const CreateAccount: FC<CreateAccount> = ({
                     placeholder: t("Pages.Account.PleaseSelect"),
                     disabled: true,
                     options: [
-                        { label: '标准账户', value: '0' },
-                        { label: 'xx账户', value: '1' }
+                        {label: '标准账户', value: '0'},
+                        {label: 'xx账户', value: '1'}
                     ]
                 },
             },
@@ -155,7 +155,7 @@ const CreateAccount: FC<CreateAccount> = ({
                 name: 'leverage',
                 label: t("Pages.Account.LeverageSize"), // 杠杆大小
                 rules: [
-                    { required: true, message: t("Pages.Account.PleaseSelect") },
+                    {required: true, message: t("Pages.Account.PleaseSelect")},
                 ],
             },
             {
@@ -163,11 +163,11 @@ const CreateAccount: FC<CreateAccount> = ({
                 props: {
                     placeholder: t("Pages.Account.PleaseSelect"),
                     options: [
-                        { label: '1: 20', value: '20' },
-                        { label: '1: 50', value: '50' },
-                        { label: '1: 100', value: '100' },
-                        { label: '1: 200', value: '200' },
-                        { label: '1: 300', value: '300' },
+                        {label: '1: 20', value: '20'},
+                        {label: '1: 50', value: '50'},
+                        {label: '1: 100', value: '100'},
+                        {label: '1: 200', value: '200'},
+                        {label: '1: 300', value: '300'},
                     ],
                 },
             },
@@ -176,7 +176,7 @@ const CreateAccount: FC<CreateAccount> = ({
             {
                 name: 'initialCapital',
                 label: t("Pages.Account.InitialCapital"), // 初始资金
-                rules: (() => group === '0' ? [{ required: true, message: t("Pages.Account.PleaseSelect") }] : [])(),
+                rules: (() => group === '0' ? [{required: true, message: t("Pages.Account.PleaseSelect")}] : [])(),
                 hidden: group !== '0',
             },
             {
@@ -184,10 +184,10 @@ const CreateAccount: FC<CreateAccount> = ({
                 props: {
                     placeholder: t("Pages.Account.PleaseSelect"),
                     options: [
-                        { label: '5000', value: '5000' },
-                        { label: '10000', value: '10000' },
-                        { label: '20000', value: '20000' },
-                        { label: '50000', value: '50000' },
+                        {label: '5000', value: '5000'},
+                        {label: '10000', value: '10000'},
+                        {label: '20000', value: '20000'},
+                        {label: '50000', value: '50000'},
                     ],
                 },
             },
@@ -197,7 +197,7 @@ const CreateAccount: FC<CreateAccount> = ({
                 name: 'masterPassword',
                 label: t("Pages.Account.MasterPasswordSettings"), // 主密码设置
                 //函数动态渲染rules
-                rules: [{ required: true, validator: passwordValidator }],
+                rules: [{required: true, validator: passwordValidator}],
             },
             {
                 type: 'PasswordInput',
@@ -212,7 +212,7 @@ const CreateAccount: FC<CreateAccount> = ({
             {
                 name: 'investorPassword',
                 label: t("Pages.Account.Read-onlyPasswordSetting"), // 只读密码设置
-                rules: (() => group === '1' ? [{ required: false, validator: passwordValidator }] : [])(),
+                rules: (() => group === '1' ? [{required: false, validator: passwordValidator}] : [])(),
                 hidden: group !== '1',
             },
             {
@@ -258,8 +258,8 @@ const CreateAccount: FC<CreateAccount> = ({
                                 marginLeft: '16px',
                             },
                             onClick: () => {
-                                switchIsCreateAcc()
-                                form.resetFields()
+                                switchIsCreateAcc();
+                                form.resetFields();
                             }
                         },
                         content: t("Pages.Account.Return"), // 返回
@@ -269,7 +269,7 @@ const CreateAccount: FC<CreateAccount> = ({
         ],
 
 
-    ]
+    ];
 
 
 
@@ -298,7 +298,7 @@ const CreateAccount: FC<CreateAccount> = ({
             </div>
 
         </div>
-    )
-}
+    );
+};
 
-export default CreateAccount
+export default CreateAccount;

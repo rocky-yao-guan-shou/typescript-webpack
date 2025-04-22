@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import { message, Button, Modal } from "antd";
+import {message, Button, Modal} from "antd";
 // import {
 //   createPermission,
 //   editPermission,
@@ -8,7 +8,7 @@ import { message, Button, Modal } from "antd";
 //   getPermissionList
 // } from "src/assets/js/request";
 import FormPage from "src/components/FormPage";
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 interface Props {
   getInitialValues?: () => Promise<any>;
   onSubmitForm?: () => void;
@@ -67,17 +67,17 @@ class Index extends FormPage {
     const values: SubmitData = await this.mapSubmitData(formData);
 
 
-    onSubmitForm(values)
+    onSubmitForm(values);
 
   };
 
 
   // 底部按钮
   getFooter = () => {
-    const { getFooter = () => { } } = this.props;
+    const {getFooter = () => { }} = this.props;
 
 
-    return getFooter(this)
+    return getFooter(this);
 
   };
 
@@ -88,13 +88,13 @@ class Index extends FormPage {
 
 
 
-    return getFields(this)
+    return getFields(this);
 
   };
 
   componentDidMount() { }
   render() {
-    const { formProps = {} } = this.props
+    const {formProps = {}} = this.props;
 
     return (
       <div className="form-page modal-form">
@@ -113,14 +113,14 @@ export default (props) => {
     onCancel,
     modalProps = {},
     formProps = {}
-  } = props
-  const ref = useRef(null)
-  const [confirmLoading, setConfirmLoading] = useState(false)
+  } = props;
+  const ref = useRef(null);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   useEffect(() => {
 
 
-  }, [open])
+  }, [open]);
 
   return <Modal
     open={open}
@@ -129,13 +129,13 @@ export default (props) => {
     maskClosable={false}
     onOk={async () => {
 
-      let values = await ref.current.onValidaForm({})
+      const values = await ref.current.onValidaForm({});
 
-      setConfirmLoading(true)
+      setConfirmLoading(true);
       await onOk(values).catch(() => {
-        setConfirmLoading(false)
-      })
-      setConfirmLoading(false)
+        setConfirmLoading(false);
+      });
+      setConfirmLoading(false);
     }} onCancel={onCancel}
     width={500}
     {...modalProps}>
@@ -154,6 +154,6 @@ export default (props) => {
       {...props}
     ></Index>
 
-  </Modal >
+  </Modal >;
 
-}
+};

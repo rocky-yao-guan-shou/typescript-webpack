@@ -24,21 +24,21 @@ import React, {
   use,
 } from 'react';
 import './index.scss';
-import { DownOutlined } from '@ant-design/icons';
-import { Button, Divider, Dropdown, Space, theme } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
-import type { MenuProps } from 'antd';
+import {DownOutlined} from '@ant-design/icons';
+import {Button, Divider, Dropdown, Space, theme} from 'antd';
+import {v4 as uuidv4} from 'uuid';
+import type {MenuProps} from 'antd';
 import {
   AppstoreOutlined,
   MailOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import { mapRedux } from '@/redux';
-import { Menu } from 'antd';
+import {mapRedux} from '@/redux';
+import {Menu} from 'antd';
 import i18n from 'i18next';
-import { localStorage } from '@/storage';
+import {localStorage} from '@/storage';
 // import { getLanguage, setLanguage } from '@/utils/i18n';
-const { useToken } = theme;
+const {useToken} = theme;
 
 // import { getCookie, } from "@/utils";
 
@@ -62,9 +62,9 @@ const Language: FC<LanguageProps> & {
   language?: (locale: string) => Promise<any>;
 } = (props) => {
   const {
-    state: { common: { language } = {} } = {},
+    state: {common: {language} = {}} = {},
     dispatch: {
-      common: { setLanguage },
+      common: {setLanguage},
     },
   } = props;
 
@@ -96,7 +96,7 @@ const Language: FC<LanguageProps> & {
       },
     },
   ]);
-  const { token } = useToken();
+  const {token} = useToken();
 
   const contentStyle = {
     backgroundColor: token.colorBgElevated,
@@ -144,7 +144,7 @@ const Language: FC<LanguageProps> & {
                   className="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-vertical ant-dropdown-menu-light css-var-r17h ant-dropdown-css-var css-var-r17h ant-dropdown-menu-css-var"
                   dir="ltr"
                   role="menu"
-                  tabindex="0"
+                  tabIndex="0"
                   data-menu-list="true">
                   {items.map((item, index) => {
                     return (
@@ -206,7 +206,7 @@ interface LanguageProviderProps {
 
 export const LanguageProvider: FC<LanguageProviderProps> = mapRedux()(
   (props: LanguageProviderProps) => {
-    const { children, state: { common: { language } = {} } = {} } = props;
+    const {children, state: {common: {language} = {}} = {}} = props;
 
     return (
       <>

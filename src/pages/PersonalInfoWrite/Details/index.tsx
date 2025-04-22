@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import { message, Button, Input, Alert } from "antd";
+import {message, Button, Input, Alert} from "antd";
 // import {
 //   createPermission,
 //   editPermission,
@@ -10,12 +10,12 @@ import { message, Button, Input, Alert } from "antd";
 import FormPage from "src/components/FormPage";
 import LazySelect from "src/components/LazySelect";
 import setBreadcrumbAndTitle from "src/components/setBreadcrumbAndTitle";
-import { mapRedux } from "src/redux";
-import { addRouterApi, routePaths } from "src/router";
+import {mapRedux} from "src/redux";
+import {addRouterApi, routePaths} from "src/router";
 import Time from "../components/Time";
 import SignificanceLevel from "../components/SignificanceLevel";
-import { GetRegistration, RealNameAuthentication, GetRegionResidence } from "@/apis";
-import dayjs, { Dayjs } from 'dayjs';
+import {GetRegistration, RealNameAuthentication, GetRegionResidence} from "@/apis";
+import dayjs, {Dayjs} from 'dayjs';
 import EmailPhone from '@/components/EmailPhone';
 import ModalForm from '@/components/ModalForm';
 import CertificateUpload from '@/pages/PersonalInfoWrite/components/CertificateUpload';
@@ -23,7 +23,7 @@ import Email from '@/pages/PersonalInfoWrite/components/Email';
 import Phone from '@/pages/PersonalInfoWrite/components/Phone';
 import TopTag from "src/components/TopTag";
 import TopTitle from '@/components/TopTitle';
-import { withTranslation, WithTranslation, useTranslation } from 'react-i18next';
+import {withTranslation, WithTranslation, useTranslation} from 'react-i18next';
 
 
 
@@ -139,17 +139,17 @@ class Index extends FormPage {
   //   };
   // }
   action = 'edit';
-  state: any = { ...this.state, open: false };
+  state: any = {...this.state, open: false};
   private historyBack: () => void;
   private matchParams: { id?: string; action?: string };
   private t: any;
 
   constructor(props: Props) {
     super(props);
-    const { history, match, t } = props;
+    const {history, match, t} = props;
     this.historyBack = history.back;
     this.matchParams = match.params;
-    this.t = t
+    this.t = t;
   }
 
   /**
@@ -157,7 +157,7 @@ class Index extends FormPage {
    * 这个函数需要在getInitData中手动调用，因此函数名不限于mapInitData
    */
   mapInitData = async (initData: SubmitData): Promise<InitData> => {
-    let {
+    const {
       mobile,
       alpha2Code,
       callingCodes,
@@ -170,7 +170,7 @@ class Index extends FormPage {
       ...more
     } = initData;
 
-    let data = {}
+    let data = {};
 
     if (filePaths.length) {
       data = {
@@ -190,7 +190,7 @@ class Index extends FormPage {
             storageAccountName: filePaths[1]?.storageAccountName,
           }
         },
-      }
+      };
     }
 
     return {
@@ -224,9 +224,9 @@ class Index extends FormPage {
   };
   // 初始化值
   getInitialValues = async () => {
-    const { id } = this.matchParams
+    const {id} = this.matchParams;
     // 获取详情
-    const { data } = await GetRegistration(id);
+    const {data} = await GetRegistration(id);
     return await this.mapInitData(data);
   };
 
@@ -252,7 +252,7 @@ class Index extends FormPage {
         alpha2Code,
         callingCodes
       }
-    } = mobile
+    } = mobile;
 
     // /**存储账号名 */
     // storageAccountName: string;
@@ -293,34 +293,34 @@ class Index extends FormPage {
 
     const values: SubmitData = await this.mapSubmitData(formData);
 
-    return values
+    return values;
   };
 
 
 
   getFields = () => {
-    const t = this.t
+    const t = this.t;
     const {
       open,
       loading,
-      sourceData: { reviewStatus, reasonForRejection } = {}
-    } = this.state
+      sourceData: {reviewStatus, reasonForRejection} = {}
+    } = this.state;
 
     const {
       getFieldsValue = () => { }
     } = this.form || {};
 
     const {
-      importance: { type } = {},
+      importance: {type} = {},
       documentType,
-    } = getFieldsValue(['importance', 'documentType']) || {}
+    } = getFieldsValue(['importance', 'documentType']) || {};
 
 
 
     // let reviewStatus = 2
     
     //已审核只读
-    const readOnly = reviewStatus == 1
+    const readOnly = reviewStatus == 1;
     // 是否驳回
     return reviewStatus == 2 ? [
       {
@@ -359,8 +359,8 @@ class Index extends FormPage {
 
             },
             onChange
-          } = props
-          return <div> {prefixName}{lastName}</ div>
+          } = props;
+          return <div> {prefixName}{lastName}</ div>;
         },
         rules: [
           {
@@ -385,8 +385,8 @@ class Index extends FormPage {
 
             },
             onChange
-          } = props
-          return <div>{prefixName}{lastName}</ div>
+          } = props;
+          return <div>{prefixName}{lastName}</ div>;
         },
         rules: [
           {
@@ -420,7 +420,7 @@ class Index extends FormPage {
         }: {
           value: string; onChange: Function
         }) => {
-          return <Email action='details' disabled={readOnly} value={value} onChange={onChange} />
+          return <Email action='details' disabled={readOnly} value={value} onChange={onChange} />;
         }
       },
       {
@@ -437,8 +437,8 @@ class Index extends FormPage {
         },
 
         render: (props) => {
-          const { value, onChange } = props;
-          return <Phone action='details' disabled={readOnly} value={value} onChange={onChange} />
+          const {value, onChange} = props;
+          return <Phone action='details' disabled={readOnly} value={value} onChange={onChange} />;
 
         },
 
@@ -451,7 +451,7 @@ class Index extends FormPage {
                 region: {
                   value
                 } = {}
-              } = $value
+              } = $value;
 
               if (!value) {
                 return Promise.reject(new Error(t("Pages.PersonalInfoWrite.PleaseSelectRegion"))); // 请选择地区
@@ -480,10 +480,10 @@ class Index extends FormPage {
           maxLength: 100
         },
 
-        render: ({ value }) => {
+        render: ({value}) => {
 
 
-          return <div> {dayjs(value).format("YYYY/MM/DD")} </div>
+          return <div> {dayjs(value).format("YYYY/MM/DD")} </div>;
 
 
         },
@@ -526,12 +526,12 @@ class Index extends FormPage {
           },
           searchKey: "name",
           loadData: async (searchParams: any) => {
-            let { data = [] } = await GetRegionResidence();
+            const {data = []} = await GetRegionResidence();
             return {
               data: {
                 list: data
               }
-            }
+            };
 
           }
         },
@@ -578,7 +578,7 @@ class Index extends FormPage {
         name: "filePaths",
         render: (props: any) => {
           return <CertificateUpload disabled={readOnly}
-            readOnly={readOnly}   {...props} type={documentType}> </CertificateUpload>
+            readOnly={readOnly}   {...props} type={documentType}> </CertificateUpload>;
         },
 
 
@@ -589,7 +589,7 @@ class Index extends FormPage {
               const {
                 behindImg = {},
                 frontImg = {}
-              } = value
+              } = value;
 
 
 
@@ -653,7 +653,7 @@ class Index extends FormPage {
 
             },
             onChange
-          } = props
+          } = props;
           return <div
             style={{
               display: 'flex',
@@ -676,7 +676,7 @@ class Index extends FormPage {
                 onChange({
                   lastName,
                   prefixName: v,
-                })
+                });
               }}
               placeholder={t("Pages.PersonalInfoWrite.LastName")}
             ></Input>
@@ -696,12 +696,12 @@ class Index extends FormPage {
                 onChange({
                   lastName: v,
                   prefixName,
-                })
+                });
               }}
               placeholder={t("Pages.PersonalInfoWrite.FirstName")}
             ></Input>
 
-          </ div>
+          </ div>;
         },
         rules: [
           {
@@ -726,7 +726,7 @@ class Index extends FormPage {
 
             },
             onChange
-          } = props
+          } = props;
           return <div
             style={{
               display: 'flex',
@@ -749,7 +749,7 @@ class Index extends FormPage {
                 onChange({
                   lastName,
                   prefixName: v,
-                })
+                });
               }}
               placeholder="First Name"
             ></Input>
@@ -769,13 +769,13 @@ class Index extends FormPage {
                 onChange({
                   lastName: v,
                   prefixName,
-                })
+                });
               }}
               //  placeholder="名字"
               placeholder="Last Name"
             ></Input>
 
-          </ div>
+          </ div>;
         },
         rules: [
           {
@@ -809,7 +809,7 @@ class Index extends FormPage {
         }: {
           value: string; onChange: Function
         }) => {
-          return <Email disabled={readOnly} value={value} onChange={onChange} />
+          return <Email disabled={readOnly} value={value} onChange={onChange} />;
         }
       },
       {
@@ -828,8 +828,8 @@ class Index extends FormPage {
         //    extra:'添加或者修改邮箱需要验证邮箱'
         // },
         render: (props) => {
-          const { value, onChange } = props;
-          return <Phone disabled={readOnly} value={value} onChange={onChange} />
+          const {value, onChange} = props;
+          return <Phone disabled={readOnly} value={value} onChange={onChange} />;
           // return <EmailPhone
           //   readOnly={readOnly}
           //   disabled={readOnly}
@@ -858,7 +858,7 @@ class Index extends FormPage {
                 region: {
                   value
                 } = {}
-              } = $value
+              } = $value;
 
               if (!value) {
                 return Promise.reject(new Error(t("Pages.PersonalInfoWrite.PleaseSelectRegion"))); //请选择地区
@@ -914,19 +914,19 @@ class Index extends FormPage {
         ]
       },
 
-    ]
+    ];
   };
 
   componentDidMount() { }
   // 底部按钮
-  getFooter = () => null
+  getFooter = () => null;
   render() {
     const {
       open,
       loading,
-      sourceData: { reviewStatus, reasonForRejection } = {}
-    } = this.state
-    const t = this.t
+      sourceData: {reviewStatus, reasonForRejection} = {}
+    } = this.state;
+    const t = this.t;
     console.log('实名认证reviewStatusreviewStatus',reviewStatus);
     
     return (
@@ -982,10 +982,10 @@ class Index extends FormPage {
                 }}
                 loading={loading} 
                 onClick={async () => {
-                  await this.onValidaForm()
+                  await this.onValidaForm();
                   this.setState({
                     open: true
-                  })
+                  });
 
                 }}>
                 {
@@ -1028,30 +1028,30 @@ class Index extends FormPage {
               width: 600
             }}
             onOk={async (values: any) => {
-              let $values = await this.onValidaForm()
-              $values = await this.onSubmitForm($values)
-              const data = await RealNameAuthentication({ ...$values });
-              this.onReload()
+              let $values = await this.onValidaForm();
+              $values = await this.onSubmitForm($values);
+              const data = await RealNameAuthentication({...$values});
+              this.onReload();
               this.setState({
                 open: false
-              })
-              message.success(t("Pages.PersonalInfoWrite.OperationSuccessful")) // 操作成功
-              return values
+              });
+              message.success(t("Pages.PersonalInfoWrite.OperationSuccessful")); // 操作成功
+              return values;
             }}
 
             onCancel={() => {
               this.setState({
                 open: false
-              })
+              });
             }}
             open={open}
             getInitialValues={async (_this: any) => {
 
 
 
-              const values = await this.onValidaForm()
-              console.log('values===', values)
-              return values
+              const values = await this.onValidaForm();
+              console.log('values===', values);
+              return values;
 
             }}
             getFields={(_this: any) => {
@@ -1059,7 +1059,7 @@ class Index extends FormPage {
                 setFieldsValue = () => { },
                 getFieldsValue = () => { }
               } = _this.form || {};
-              let readOnly = true
+              const readOnly = true;
 
               return [
                 {
@@ -1074,12 +1074,12 @@ class Index extends FormPage {
                     },
                     searchKey: "name",
                     loadData: async (searchParams: any) => {
-                      let { data = [] } = await GetRegionResidence();
+                      const {data = []} = await GetRegionResidence();
                       return {
                         data: {
                           list: data
                         }
-                      }
+                      };
 
                     }
                   },
@@ -1161,11 +1161,11 @@ class Index extends FormPage {
 
                       },
                       onChange
-                    } = props
+                    } = props;
                     return <Input
                       value={`${prefixName}${lastName}`}
                       disabled
-                    />
+                    />;
                   },
                   rules: [
                     {
@@ -1192,11 +1192,11 @@ class Index extends FormPage {
 
                       },
                       onChange
-                    } = props
+                    } = props;
                     return <Input
                       value={`${prefixName}${lastName}`}
                       disabled
-                    />
+                    />;
                   },
                   rules: [
                     {
@@ -1234,8 +1234,8 @@ class Index extends FormPage {
                   itemProps: {
                   },
                   render: (props) => {
-                    const { value, onChange } = props;
-                    return <Phone disabled={readOnly} value={value} onChange={onChange} />
+                    const {value, onChange} = props;
+                    return <Phone disabled={readOnly} value={value} onChange={onChange} />;
                   },
                   rules: [
                     {
@@ -1246,7 +1246,7 @@ class Index extends FormPage {
                           region: {
                             value
                           } = {}
-                        } = $value
+                        } = $value;
 
                         if (!value) {
                           return Promise.reject(new Error(t("Pages.PersonalInfoWrite.PleaseSelectRegion"))); //请选择地区
@@ -1300,7 +1300,7 @@ class Index extends FormPage {
                   ]
                 },
 
-              ]
+              ];
             }}
           />
 
@@ -1324,14 +1324,14 @@ export default withTranslation()(mapRedux()(
           } = {}
         },
         t
-      } = props
+      } = props;
 
       const mapText: { [key: string]: string } = {
         create: t("Pages.PersonalInfoWrite.Create"), // 创建
         view: t("Pages.PersonalInfoWrite.View"), // 查看
         edit: t("Pages.PersonalInfoWrite.Edit"), // 编辑
         review: t("Pages.PersonalInfoWrite.Review"), // 审核
-      }
+      };
 
       return {
         //设置面包屑和标题
@@ -1346,7 +1346,7 @@ export default withTranslation()(mapRedux()(
         ],
 
         title: `${t("Pages.PersonalInfoWrite.RealNameAuthentication")}`
-      }
+      };
     }
 
 

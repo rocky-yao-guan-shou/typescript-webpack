@@ -1,30 +1,30 @@
-import { request, } from './request'
+import {request,} from './request';
 
 
 
 
 // 获取国家和地区
 export const GetRegionCode = async (params = {}) => {
-    const data = await request.get('/AccountService/GetRegionCode/V1.0', params)
+    const data = await request.get('/AccountService/GetRegionCode/V1.0', params);
 
-    return data
-}
+    return data;
+};
 
 // 获取注册图形验证码
 export const getGenRegCaptcha = async (params = {}) => {
     const data = await request.get('/CaptchaService/GenRegCaptcha/v1.0', params, {
-    })
-    return data
-}
+    });
+    return data;
+};
 
 
 
 
 // 获取登录图形验证码
 export const GenAuthCaptcha = async (params = {}) => {
-    const data = await request.get('/CaptchaService/GenAuthCaptcha/v1.0', params)
-    return data
-}
+    const data = await request.get('/CaptchaService/GenAuthCaptcha/v1.0', params);
+    return data;
+};
 
 
 
@@ -32,8 +32,8 @@ export const GenAuthCaptcha = async (params = {}) => {
 export const uploadImg = async (params: FormData) => {
 
 
-    return await request.post<any>('/FileService/FileUpload/V1.0', params)
-}
+    return await request.post<any>('/FileService/FileUpload/V1.0', params);
+};
 
 
 export const DepositLinkSite = async (params: {
@@ -43,10 +43,10 @@ export const DepositLinkSite = async (params: {
     const {
         checkoutId,
         chargeId
-    } = params
+    } = params;
 
 
-    return await request.get<any>(`/WalletService/DepositLinkSite/v1.0/${checkoutId}/${chargeId}`)
-}
+    return await request.get<any>(`/WalletService/DepositLinkSite/v1.0/${checkoutId}/${chargeId}`);
+};
 
 

@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import {initReactI18next} from 'react-i18next';
 import enTranslation from '@/locales/en.json';
 import zhTranslation from '@/locales/zh.json';
 import hkTranslation from '@/locales/hk.json';
@@ -33,12 +33,12 @@ export const getLanguage = (): string => {
 
 i18n.use(initReactI18next).init({
   resources: {
-    en: { translation: enTranslation },
-    zh: { translation: zhTranslation },
-    hk: { translation: hkTranslation },
+    en: {translation: enTranslation},
+    zh: {translation: zhTranslation},
+    hk: {translation: hkTranslation},
   },
   lng: setLanguage(getLanguage()), // 默认语言
-  interpolation: { escapeValue: false },
+  interpolation: {escapeValue: false},
 });
 
 export default i18n;

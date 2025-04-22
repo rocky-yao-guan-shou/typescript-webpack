@@ -1,21 +1,21 @@
 'use client';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import cn from 'classnames';
-import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input, Flex, Select, Row, Col, Mentions, message } from 'antd';
+import type {FormProps} from 'antd';
+import {Button, Checkbox, Form, Input, Flex, Select, Row, Col, Mentions, message} from 'antd';
 import EmailPhone from '@/components/EmailPhone';
 import VerificationCode from '@/components/VerificationCode';
-import { addRouterApi, Link } from 'src/router';
-import { emailReg, passwordReg, getSearchParams } from '@/utils';
-import { EmailOrSmsSendCode, Register } from '@/apis';
+import {addRouterApi, Link} from 'src/router';
+import {emailReg, passwordReg, getSearchParams} from '@/utils';
+import {EmailOrSmsSendCode, Register} from '@/apis';
 import Token from "src/apis/request/token";
 import './index.scss';
 
 // 引入HOC高阶函数 withTranslation 和 i18n 的ts类型定义 WithTranslation
-import { withTranslation, WithTranslation, useTranslation } from 'react-i18next';
+import {withTranslation, WithTranslation, useTranslation} from 'react-i18next';
 
 
-const { Option } = Select;
+const {Option} = Select;
 type EmailPhoneType = {
   email?: string;
   phone?: string;
@@ -60,18 +60,18 @@ const checkForm = (props: LoginFormProps) => {
     formName,
     pushRoute,
     routePaths,
-  } = props
+  } = props;
   // const [form] = Form.useForm();
-  const { getFieldsValue, getFieldValue, validateFields, setFieldsValue } = form;
+  const {getFieldsValue, getFieldValue, validateFields, setFieldsValue} = form;
   
-  const { t } = useTranslation()
+  const {t} = useTranslation();
   const [isAcceptCode, setIsAcceptCode] = useState(false);
   const [isUseEmail, setIsUseEmail] = useState(type === 'email');
   const [loading, setLoading] = useState(false);
 
 
-  console.log('props==', props)
-  console.log('getSearchParams==', getSearchParams('code'))
+  console.log('props==', props);
+  console.log('getSearchParams==', getSearchParams('code'));
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     console.log('Success:', values);
@@ -99,12 +99,12 @@ const checkForm = (props: LoginFormProps) => {
         } = {},
         inviteCode = ''
       } = {}
-    } = info
+    } = info;
     if (errorFields.length) {
-      return false
+      return false;
     }
-    setLoading(true)
-    let data = await Register({
+    setLoading(true);
+    const data = await Register({
 
       Email: email,
       Mobile: phone,
@@ -120,21 +120,21 @@ const checkForm = (props: LoginFormProps) => {
       InviteCode: inviteCode
     }).then(() => {
 
-      message.success(t('Pages.login.registeredSuccessfully'))
+      message.success(t('Pages.login.registeredSuccessfully'));
       setTimeout(() => {
 
 
 
-        pushRoute(routePaths.logIn)
+        pushRoute(routePaths.logIn);
 
 
-      }, 1000)
+      }, 1000);
 
-      setLoading(false)
+      setLoading(false);
     }).catch(() => {
 
-      setLoading(false)
-    })
+      setLoading(false);
+    });
 
 
 
@@ -152,16 +152,16 @@ const checkForm = (props: LoginFormProps) => {
   // }
 
 
-  const code = getSearchParams('code')
+  const code = getSearchParams('code');
 
   return (
     <Form
       name={formName}
       form={form}
       layout="vertical"
-      labelCol={{ span: 24 }}
-      wrapperCol={{ span: 24 }}
-      style={{ minWidth: 300, margin: 'auto', maxWidth: 360 }}
+      labelCol={{span: 24}}
+      wrapperCol={{span: 24}}
+      style={{minWidth: 300, margin: 'auto', maxWidth: 360}}
       size='large'
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -200,43 +200,43 @@ const checkForm = (props: LoginFormProps) => {
                     email,
                     phone,
                     region
-                  } = value
+                  } = value;
                   if (isUseEmail) {
                     if (!email) {
-                      return Promise.reject(t('Components.EmailPhone.email.verify1'))
+                      return Promise.reject(t('Components.EmailPhone.email.verify1'));
                     }
 
 
                     if (!email.match(emailReg)) {
-                      return Promise.reject(t('Components.EmailPhone.email.verify2'))
+                      return Promise.reject(t('Components.EmailPhone.email.verify2'));
                     }
                   } else {
 
                     if (!region) {
-                      return Promise.reject(t('Components.EmailPhone.phone.verify3'))
+                      return Promise.reject(t('Components.EmailPhone.phone.verify3'));
                     }
 
                     if (!phone) {
-                      return Promise.reject(t('Components.EmailPhone.phone.verify1'))
+                      return Promise.reject(t('Components.EmailPhone.phone.verify1'));
                     }
                   }
-                  setIsAcceptCode(true)
-                  return Promise.resolve()
+                  setIsAcceptCode(true);
+                  return Promise.resolve();
                 }
               }]}
 
           >
 
-            <EmailPhone type={isUseEmail ? 'email' : 'phone'} value={{ email: '', phone: '' }} />
+            <EmailPhone type={isUseEmail ? 'email' : 'phone'} value={{email: '', phone: ''}} />
 
           </Form.Item>
 
           <Form.Item name="code" label={t('Pages.login.registerForm_verificationCode')}
-            rules={[{ required: true, message: t('Components.VerificationCode.captcha.verify1') }]}
+            rules={[{required: true, message: t('Components.VerificationCode.captcha.verify1')}]}
           >
             <VerificationCode
               value={getFieldValue('code')}
-              onChange={(value: string) => setFieldsValue({ code: value })}
+              onChange={(value: string) => setFieldsValue({code: value})}
               isAcceptCode={isAcceptCode}
               onSubmit={async (v: any) => {
                 const {
@@ -248,12 +248,12 @@ const checkForm = (props: LoginFormProps) => {
                     commonName,
                     nativeName,
                   } = {}
-                } = getFieldValue('emailPhone') || {}
+                } = getFieldValue('emailPhone') || {};
                 // phone
-                console.log('phone==', getFieldValue('emailPhone'))
+                console.log('phone==', getFieldValue('emailPhone'));
 
 
-                let parameter = {
+                const parameter = {
                   RegionDic: {
                     nativeName,
                     commonName,
@@ -263,23 +263,23 @@ const checkForm = (props: LoginFormProps) => {
                   Email: email,
                   Mobile: phone,
                   // EmailOrMobile: phone,
-                }
+                };
                 // 更新token
-                let { data = '' } = await EmailOrSmsSendCode({
+                const {data = ''} = await EmailOrSmsSendCode({
                   ...parameter,
                   ...v,
-                })
-                Token.set(data)
-                return data
+                });
+                Token.set(data);
+                return data;
 
               }} />
           </Form.Item>
         </>
       )}
     </Form>
-  )
-}
+  );
+};
 
 
 
-export default addRouterApi(checkForm)
+export default addRouterApi(checkForm);

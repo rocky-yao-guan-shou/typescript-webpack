@@ -69,9 +69,11 @@ if (module.hot) {
     }
   });
   if (window.$root) {
+   /* eslint-disable */
     let App = require('./App').default;
 
     renderApp(App);
+     
   }
 }
 

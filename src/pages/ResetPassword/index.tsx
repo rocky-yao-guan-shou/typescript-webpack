@@ -1,29 +1,29 @@
 import 'src/assets/css/base.scss';
 import './index.scss';
-import { Tabs, TabsProps } from 'antd';
-import { mapRedux } from '@/redux';
-import { addRouterApi, Link } from 'src/router';
+import {Tabs, TabsProps} from 'antd';
+import {mapRedux} from '@/redux';
+import {addRouterApi, Link} from 'src/router';
 import React from 'react';
 import loginImg from '@/assets/images/404.png';
 import VerificationCodeLogin from '@/components/VerificationCodeLogin';
-import { MailTwoTone } from '@ant-design/icons';
+import {MailTwoTone} from '@ant-design/icons';
 import Header from '@/components/Header';
 import Token from "src/apis/request/token";
-import { getToken, GetUserInfo } from "@/apis";
+import {getToken, GetUserInfo} from "@/apis";
 import Form from './components/Form';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 // 引入HOC高阶函数 withTranslation 和 i18n 的ts类型定义 WithTranslation
-import { withTranslation, WithTranslation, useTranslation } from 'react-i18next';
+import {withTranslation, WithTranslation, useTranslation} from 'react-i18next';
 
 
 const LogInPage: React.FC<WithTranslation> = (props) => {
 
-  const [procedure, setProcedure] = useState(1)
+  const [procedure, setProcedure] = useState(1);
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const AccountInfo = async () => {
     // 如果已经登录了 则跳去首页
-    let { data } = await GetUserInfo(
+    const {data} = await GetUserInfo(
       {},
       {
         requestOptions: {
@@ -33,10 +33,10 @@ const LogInPage: React.FC<WithTranslation> = (props) => {
           globalErrorRedirect: false
         }
       }
-    )
+    );
     // dispatch(actions.user_setUser(data))
 
-  }
+  };
   // const items: TabsProps['items'] = [
   //   {
   //     key: 'email',
@@ -55,20 +55,20 @@ const LogInPage: React.FC<WithTranslation> = (props) => {
 
   const init = async () => {  // 初始化 
 
-    const token = await Token.get()
+    const token = await Token.get();
 
     if (!token) {
-      getToken()
+      getToken();
     }
 
     // let data = await AccountInfo()
 
 
 
-  }
+  };
   useEffect(() => {
-    init()
-  }, [])
+    init();
+  }, []);
 
 
 
@@ -94,7 +94,7 @@ const LogInPage: React.FC<WithTranslation> = (props) => {
 
 
               <Form formName="loginForm" onChangeProcedure={(v: number) => {
-                setProcedure(v)
+                setProcedure(v);
               }} />
             </div>
           </div>

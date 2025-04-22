@@ -1,9 +1,9 @@
 import "./index.scss";
-import { FC } from "react";
-import { Button } from "antd";
-import { useTranslation } from 'react-i18next';
-import { addRouterApi } from 'src/router';
-import { mapRedux } from '@/redux';
+import {FC} from "react";
+import {Button} from "antd";
+import {useTranslation} from 'react-i18next';
+import {addRouterApi} from 'src/router';
+import {mapRedux} from '@/redux';
 // import Link from 'next/link';
 // import { Link } from 'src/router';
 
@@ -22,14 +22,14 @@ interface TopTagProps {
 }
 
 const TopTag: FC<TopTagProps> = (props) => {
-    const { t } = useTranslation()
+    const {t} = useTranslation();
 
-    const { reviewStatus = 0 } = props.state.user.userInfo || {}
+    const {reviewStatus = 0} = props.state.user.userInfo || {};
     // 0未提交审核，1未审核，2已审核通过，3已驳回
-    const isFinishReal = reviewStatus === 1 || reviewStatus === 2
-    console.log('isFinishReal, reviewStatus', isFinishReal, reviewStatus)
+    const isFinishReal = reviewStatus === 1 || reviewStatus === 2;
+    console.log('isFinishReal, reviewStatus', isFinishReal, reviewStatus);
 
-    const toPersonCenter = () => props.pushRoute(props.routePaths.personalInfoWrite)
+    const toPersonCenter = () => props.pushRoute(props.routePaths.personalInfoWrite);
 
     return (
         <>
@@ -47,7 +47,7 @@ const TopTag: FC<TopTagProps> = (props) => {
                 ) 
             }
         </>
-    )
-}
+    );
+};
 
-export default mapRedux()(addRouterApi(TopTag))
+export default mapRedux()(addRouterApi(TopTag));
